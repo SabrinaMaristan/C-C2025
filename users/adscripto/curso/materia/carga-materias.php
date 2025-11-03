@@ -1,0 +1,249 @@
+<?php 
+include('../../../../conexion.php');
+$conn = conectar_bd();
+$sql = "SELECT * FROM asignatura";
+$query = mysqli_query($conn, $sql);
+?>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel Adscripto</title>
+    
+    <!-- Bootstrap CSS + Iconos + letras-->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"/>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    
+    <!-- CSS propio -->
+    <link rel="stylesheet" href="../../../../css/style.css">
+</head>
+
+<body>
+
+  <!-- Menú hamburguesa para móviles -->
+  <nav class="d-md-none">
+    <div class="container-fluid">
+      <button class="btn" type="button" data-bs-toggle="offcanvas" data-bs-target="#menuLateral">
+        <img class="menuResponsive" src="./../../../../img/menu.png" alt="menu">
+      </button>
+      <img class="logoResponsive" src="./../../../../img/logo.png" alt="logoResponsive">
+    </div>
+  </nav>
+
+  <!-- Menú lateral (para celulares/tablets) -->
+  <div class="offcanvas offcanvas-start" tabindex="-1" id="menuLateral">
+    <div class="offcanvas-header">
+      <button type="button" class="btn-close" data-bs-dismiss="offcanvas"></button>
+    </div>
+    <div class="offcanvas-body d-flex flex-column">
+      <div class="banner-parte-superior">
+        <a href="../adscripto-curso.php" class="mb-3">
+          <i class="bi bi-arrow-left-circle-fill me-2"></i>
+          <span data-i18n="goBack">Volver</span>
+        </a>
+        <i class="bi bi-translate traductor-menu"></i>
+      </div>
+
+      <a href="./../../espacio/adscripto-espacio.php" class="nav-opciones mb-2" data-i18n="facility">Espacio</a>
+      <a href="./../../reserva/reserva-adscripto.php" class="nav-opciones mb-2" data-i18n="reservation">Reserva</a>
+      <a href="./../../falta/falta-docente.php" class="nav-opciones mb-2" data-i18n="teacherAbsence">Falta docente</a>
+      <a href="./../../curso/adscripto-curso.php" class="fw-semibold seleccionado mb-2" data-i18n="courseManagement">Gestión de cursos</a>
+    </div>
+
+    <!-- BOTÓN CERRAR SESIÓN -->
+   <a href="#" class="btn-cerrar-sesion-bajo btn-cerrar-sesion mb-3">
+    <i class="bi bi-box-arrow-right me-2"></i>
+    <span data-i18n="sessionClose">Cerrar sesión</span>
+  </a>
+  </div>
+
+  <!-- Contenedor principal con Grid -->
+  <div class="contenedor">
+
+    <!-- Barra lateral -->
+    <aside class="barra-lateral d-none d-md-flex">
+      <div class="volverGeneral">
+        <div class="volver">
+          <a href="../adscripto-curso.php"><i class="bi bi-arrow-left-circle-fill icono-volver"></i></a>
+          <a href="../adscripto-curso.php" data-i18n="goBack">Volver</a>
+        </div>
+        <i class="bi bi-translate traductor-menu"></i>
+      </div>
+
+      <a href="./../../espacio/adscripto-espacio.php" class="nav-opciones mb-2" data-i18n="facility">Espacio</a>
+      <a href="./../../reserva/reserva-adscripto.php" class="nav-opciones mb-2" data-i18n="reservation">Reserva</a>
+      <a href="./../../falta/falta-docente.php" class="nav-opciones mb-2" data-i18n="teacherAbsence">Falta docente</a>
+      <a href="./../../curso/adscripto-curso.php" class="fw-semibold seleccionado mb-2" data-i18n="courseManagement">Gestión de cursos</a>
+   
+   <!-- BOTÓN CERRAR SESIÓN -->
+   <a href="#" class="btn-cerrar-sesion-bajo btn-cerrar-sesion mb-3">
+    <i class="bi bi-box-arrow-right me-2"></i>
+    <span data-i18n="sessionClose">Cerrar sesión</span>
+  </a>
+    </aside>
+
+    <!-- Contenido principal -->
+    <main class="principal">
+
+      <img src="./../../../../../img/logo.png" alt="Logo" class="logo"> 
+      <h2 id="asignatura-carga" data-i18n="loadSubject">Cargar Asignatura</h2>
+      <p data-i18n="enterSubject">Ingrese la asignatura</p>
+
+      <div class="busqueda">
+        <form action="./cargar-materias-accion.php" method="POST">
+           <div class="form-group">
+           <input type="text" class="diseno-busqueda diseno-busqueda2" id="insertar-materia" name="insertar-materia" data-i18n-placeholder="exampleFullStack" placeholder="Ej: Programación Full-Stack" required>
+          </div>
+          <br>
+        <button type="submit" class="btn btn-primary" data-i18n="load" data-i18n="load">Cargar</button>
+         </form>
+      </div>
+
+      
+
+      <h2 id="asignatura-carga2" data-i18n="loadedSubjects">Asignaturas cargadas</h2>
+      <table class="tabla-reserva">
+        <thead>
+            <tr>
+                <th scope="col" data-i18n="nameLoadedSubjects">Nombre de asignaturas cargadas</th>
+                <th></th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+             <?php while($row = mysqli_fetch_array($query)): ?>
+            <tr>
+                <td><?= $row['nombre_asignatura'] ?></td>
+                <td>
+                  <a data-bs-toggle="modal" data-bs-target="#update_modal<?= $row['id_asignatura'] ?>"><i class="bi bi-pencil-square"></i></a>
+                </td>
+                <td>
+                  <a href="./delete_materia.php?id_asignatura=<?= $row['id_asignatura'] ?>"><i class="bi bi-trash"></i></a>
+                </td>
+            </tr>
+
+
+             </main>
+
+            <!-- Modal para actualizar -->
+            <div class="modal fade" id="update_modal<?= $row['id_asignatura'] ?>" tabindex="-1">  
+              <div class="modal-dialog">
+                <div class="modal-content">
+                  <div class="modal-header">
+                      <h5 class="modal-title" data-i18n="editSubject">Edición de Asignatura</h5>
+                  </div>
+                  <form method="POST" action="./editar_materia.php" id="editarMateria">
+                    <div class="modal-body">
+                        <input type="hidden" name="id_asignatura" value="<?= $row['id_asignatura'] ?>">
+                        <div class="form-group">
+                            <input type="text" class="form-control" name="editar-materia" placeholder="Ej: Programación Full-Stack" value="<?= htmlspecialchars($row['nombre_asignatura']) ?>">
+                            <small class="form-text text-muted" data-i18n="ensureWrittenCorrectly">Asegúrese de que quede bien escrito.</small>
+                        </div>
+                        <button type="submit" class="btn btn-primary" data-i18n="save">Guardar</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" data-i18n="cancel">Cancelar</button>
+                    </div>
+                  </form>
+                <?php endwhile; ?>
+                </div>
+             </div>  
+            </div>
+          </tbody>
+        </table>
+      </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="../js/redireccionar-grupo.js"></script>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <script src="./../../../../utils/form-log-in.js"></script> 
+
+  <script src="https://unpkg.com/i18next@21.6.16/dist/umd/i18next.min.js"></script>
+  <script src="/utils/translate.js"></script>
+
+  <?php if(isset($_GET['error'])) {
+    if($_GET['error'] == 'CampoVacio') { ?>
+    <script>
+       Swal.fire({
+            icon: 'error',
+            title: 'El campo no puede estar vacío',
+            text: 'Por favor intente de nuevo',
+            confirmButtonColor: '#d33'
+        });
+    </script>
+  <?php } else if($_GET['error'] == 'NombreInvalido') {?>
+      <script>
+       Swal.fire({
+            icon: 'error',
+            title: 'El nombre es inválido',
+            text: 'Por favor intenténtelo con otro nombre.',
+            confirmButtonColor: '#d33'
+        });
+    </script>
+  <?php } else if($_GET['error'] == 'MateriaDuplicada'){ ?>
+    <script>
+       Swal.fire({
+            icon: 'error',
+            title: 'La materia ya existe',
+            text: 'Por favor ingrese otra materia.',
+            confirmButtonColor: '#d33'
+        });
+    </script>
+  <?php } else if($_GET['error'] == 'InsercionFallida'){ ?>
+    <script>
+       Swal.fire({
+            icon: 'error',
+            title: 'Inserción Fallida',
+            text: 'Por favor intente otra vez.',
+            confirmButtonColor: '#d33'
+        });
+    </script>
+  <?php } else if($_GET['error'] == 'ActualizacionFallida') { ?>
+    <script>
+       Swal.fire({
+            icon: 'error',
+            title: 'Falla en la actualización',
+            text: 'Por favor intente otra vez.',
+            confirmButtonColor: '#d33'
+        });
+    </script>
+  <?php } else if($_GET['error'] == 'ActualizacionFallida') { ?>
+    <script>
+       Swal.fire({
+            icon: 'error',
+            title: 'Falla en la actualización',
+            text: 'Por favor intente otra vez.',
+            confirmButtonColor: '#d33'
+        });
+    </script>
+  <?php } } else if(isset($_GET['msg'])) {
+    if($_GET['msg'] == 'EdicionExitosa') { ?>
+    <script>
+       Swal.fire({
+            icon: 'success',
+            title: '¡Edición Exitosa!',
+            confirmButtonColor: 'rgba(95, 102, 207, 1)'
+        });
+    </script>
+  <?php } else if($_GET['msg'] == 'InsercionExitosa') { ?>
+    <script>
+       Swal.fire({
+            icon: 'success',
+            title: '¡Inserción Exitosa!',
+            confirmButtonColor: 'rgba(95, 102, 207, 1)'
+        });
+    </script>
+  <?php } else if($_GET['msg'] == 'EliminacionExitosa') { ?>
+    <script>
+       Swal.fire({
+            icon: 'success',
+            title: '¡Eliminación Exitosa!',
+            confirmButtonColor: 'rgba(95, 102, 207, 1)'
+        });
+    </script>
+  <?php } } ?>
+</body>
+</html>
