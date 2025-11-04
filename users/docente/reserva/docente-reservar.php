@@ -24,63 +24,7 @@ if (!$id_usuario) {
   <!-- CSS propio -->
   <link rel="stylesheet" href="./../../../css/style.css">
 
-  <style>
-    
-    .modal-content {
-      border-radius: 1rem;
-      border: none;
-      box-shadow: 0 4px 25px rgba(0, 0, 0, 0.2);
-    }
 
-    .modal-header {
-      background-color: var(--color-docente, #F4B97D);
-      color: white;
-      border-bottom: none;
-    }
-
-    .modal-title {
-      font-weight: 600;
-      letter-spacing: 0.5px;
-    }
-
-    .btn-primary {
-      background-color: var(--color-docente, #F4B97D);
-      border: none;
-      font-weight: 600;
-    }
-    .btn-primary:hover {
-      background-color: #f1a85c;
-    }
-
-    .form-label {
-      font-weight: 600;
-    }
-
-    /* Ajuste del contenedor principal */
-    .principal {
-      padding: 2rem;
-    }
-
-    .boton-opciones.docente {
-      background-color: var(--color-docente, #F4B97D);
-      color: white;
-      border: none;
-      font-weight: 600;
-    }
-    .boton-opciones.docente:hover {
-      background-color: #f1a85c;
-    }
-
-    .table thead th {
-      background-color: var(--color-docente, #F4B97D);
-      color: white;
-    }
-
-    #sinReservas {
-      text-align: center;
-      margin-top: 1rem;
-    }
-  </style>
 </head>
 
 <body>
@@ -109,7 +53,7 @@ if (!$id_usuario) {
         <i class="bi bi-translate traductor-menu"></i>
       </div>
       <a href="./../docente-grupo.php" class="nav-opciones mb-2" data-i18n="assignedGroups">Grupos a Cargo</a>
-      <a href="./../docente-reservar.php" class="fw-semibold seleccionado" data-i18n="reserveFacility">Reservar Espacio</a>
+      <a href="docente-reservar.php" class="fw-semibold seleccionado" data-i18n="reserveFacility">Reservar Espacio</a>
       <a href="./../docente-falta.php" class="nav-opciones mb-2" data-i18n="reportAbsence">Avisar Falta</a>
     </div>
 
@@ -134,7 +78,7 @@ if (!$id_usuario) {
       </div>
 
       <a href="./../docente-grupo.php" class="nav-opciones mb-2" data-i18n="assignedGroups">Grupos a Cargo</a>
-      <a href="./../docente-reservar.php" class="fw-semibold seleccionado" data-i18n="reserveFacility">Reservar Espacio</a>
+      <a href="docente-reservar.php" class="fw-semibold seleccionado" data-i18n="reserveFacility">Reservar Espacio</a>
       <a href="./../docente-falta.php" class="nav-opciones mb-2" data-i18n="reportAbsence">Avisar Falta</a>
    
       
@@ -190,7 +134,7 @@ if (!$id_usuario) {
   <div class="modal fade" id="modalReserva" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-lg">
       <div class="modal-content">
-        <div class="modal-header">
+        <div class="modal-header docente">
           <h5 class="modal-title" data-i18n="newReservation">Nueva Reserva</h5>
           <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
         </div>
@@ -232,7 +176,7 @@ if (!$id_usuario) {
 
             <div class="text-end">
               <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" data-i18n="cancel">Cancelar</button>
-              <button type="submit" class="btn btn-primary">Enviar</button>
+              <button type="submit" class="btn btn-primary docente">Enviar</button>
             </div>
           </form>
         </div>
@@ -245,12 +189,10 @@ if (!$id_usuario) {
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 
   <script src="./../js/desplegar-reserva.js"></script>
-  <script src="./../js/reserva.js"></script>
-
-
+  <script src="./../js/reserva.js"></script> 
   <script src="./../../../utils/form-log-in.js"></script> 
 
  <script src="https://unpkg.com/i18next@21.6.16/dist/umd/i18next.min.js"></script>
-  <script src="./../../utils/translate.js"></script>
+  <script src="./../../../utils/translate.js"></script>
 </body>
 </html>
