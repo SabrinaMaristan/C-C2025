@@ -1,9 +1,8 @@
 <?php
-include(dirname(__FILE__).'./encabezado.php');
-include('..\..\..\conexion.php');
+include('./../../../conexion.php');
 $conn = conectar_bd();
 
-// Supongamos que los valores vienen de un formulario POST
+// valores de un formulario POST
 $id_usuario = $_POST['id_usuario'];
 $ci_usuario = $_POST['ci_usuario'];
 $nombre_usuario = $_POST['nombre_usuario'];

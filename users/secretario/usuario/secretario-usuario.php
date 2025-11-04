@@ -1,5 +1,5 @@
 <?php
-include('../../../conexion.php');
+include('./../../../conexion.php');
 $conn = conectar_bd();
 $sql = "SELECT * FROM usuario";
 $query = mysqli_query($conn, $sql); //mysqli_query FUNCIÓN de php para EJECUTAR SQL
@@ -70,8 +70,8 @@ while($row = mysqli_fetch_array($query)) {
           <i class="bi bi-arrow-left-circle-fill me-2"></i><span data-i18n="goBack">Volver</span>
         </a> </div>
         <a href="secretario-usuario.php" class="fw-semibold seleccionado mb-2" data-i18n="users" >Usuarios</a>
-        <a href="../horario/horario-secretario.php" class="nav-opciones" data-i18n="schedule" >Horarios</a>
-        <a href="../grupo/secretario-grupo.php" class="nav-opciones" data-i18n="groups">Grupos</a>
+        <a href="./../horario/horario-secretario.php" class="nav-opciones" data-i18n="schedule" >Horarios</a>
+        <a href="./../grupo/secretario-grupo.php" class="nav-opciones" data-i18n="groups">Grupos</a>
         <a href="./../recurso/secretario-recurso.php" class="nav-opciones" data-i18n="resources">Recursos</a>
    
         <!-- BOTÓN CERRAR SESIÓN -->
@@ -96,8 +96,8 @@ while($row = mysqli_fetch_array($query)) {
       </div>
 
         <a href="secretario-usuario.php" class="fw-semibold seleccionado mb-2" data-i18n="users">Usuarios</a>
-        <a href="../horario/horario-secretario.php" class="nav-opciones" data-i18n="schedule">Horarios</a>
-        <a href="../grupo/secretario-grupo.php" class="nav-opciones" data-i18n="groups">Grupos</a>
+        <a href="./../horario/horario-secretario.php" class="nav-opciones" data-i18n="schedule">Horarios</a>
+        <a href="./../grupo/secretario-grupo.php" class="nav-opciones" data-i18n="groups">Grupos</a>
         <a href="./../recurso/secretario-recurso.php" class="nav-opciones" data-i18n="resources">Recursos</a>
    
 
