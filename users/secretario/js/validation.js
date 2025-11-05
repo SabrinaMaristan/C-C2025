@@ -1,10 +1,10 @@
-// ------------------------------------------------------
-// EVENTOS AL CARGAR EL DOCUMENTO
-// ------------------------------------------------------
+// ======================================================
+// VALIDATION.JS - SweetAlert + Validaciones + Confirmaciones
+// ======================================================
 document.addEventListener('DOMContentLoaded', () => {
 
   // ------------------------------------------------------
-  // Mostrar alertas según parámetros GET (error o mensaje)
+  // 1️⃣ Mostrar alertas según parámetros GET (error o mensaje)
   // ------------------------------------------------------
   const params = new URLSearchParams(window.location.search);
 
@@ -71,33 +71,28 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // ------------------------------------------------------
-  // VALIDACIONES DE FORMULARIOS
+  // 2️⃣ Validaciones de formularios (crear y editar)
   // ------------------------------------------------------
 
-  // ---- EDICIÓN (delegación por seguridad) ----
+  // ---- EDICIÓN ----
   document.addEventListener('submit', (e) => {
     const form = e.target;
     if (!form.matches('form[id^="editarUsuarioForm"]')) return;
 
     e.preventDefault();
-
     const ok = validarFormularioEdicion(form);
     if (!ok) return;
 
-    if (window.Swal) {
-      Swal.fire({
-        title: '¿Estás seguro?',
-        text: '¿Deseas guardar los cambios?',
-        icon: 'question',
-        showCancelButton: true,
-        confirmButtonColor: '#3085d6',
-        cancelButtonColor: '#d33',
-        confirmButtonText: 'Sí, guardar',
-        cancelButtonText: 'Cancelar'
-      }).then((r) => { if (r.isConfirmed) form.submit(); });
-    } else {
-      if (confirm('¿Deseas guardar los cambios?')) form.submit();
-    }
+    Swal.fire({
+      title: '¿Estás seguro?',
+      text: '¿Deseas guardar los cambios?',
+      icon: 'question',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Sí, guardar',
+      cancelButtonText: 'Cancelar'
+    }).then((r) => { if (r.isConfirmed) form.submit(); });
   });
 
   // ---- CREACIÓN ----
@@ -108,81 +103,157 @@ document.addEventListener('DOMContentLoaded', () => {
       const ok = validarFormulario(formCreacion, true);
       if (!ok) return;
 
-      if (window.Swal) {
-        Swal.fire({
-          title: '¿Crear usuario?',
-          text: 'Se agregará un nuevo usuario',
-          icon: 'question',
-          showCancelButton: true,
-          confirmButtonColor: '#3085d6',
-          cancelButtonColor: '#d33',
-          confirmButtonText: 'Sí, crear',
-          cancelButtonText: 'Cancelar'
-        }).then((r) => { if (r.isConfirmed) formCreacion.submit(); });
-      } else {
-        if (confirm('¿Crear usuario?')) formCreacion.submit();
-      }
+      Swal.fire({
+        title: '¿Crear usuario?',
+        text: 'Se agregará un nuevo usuario',
+        icon: 'question',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Sí, crear',
+        cancelButtonText: 'Cancelar'
+      }).then((r) => { if (r.isConfirmed) formCreacion.submit(); });
     });
   }
+
+  // ------------------------------------------------------
+  // 3️⃣ Confirmación antes de eliminar usuario
+  // ------------------------------------------------------
+  document.querySelectorAll('a.eliminar').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      e.preventDefault();
+      const url = btn.getAttribute('href');
+
+      Swal.fire({
+        title: '¿Eliminar usuario?',
+        text: 'Esta acción no se puede deshacer.',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#d33',
+        cancelButtonColor: '#3085d6',
+        confirmButtonText: 'Sí, eliminar',
+        cancelButtonText: 'Cancelar'
+      }).then((r) => {
+        if (r.isConfirmed) {
+          window.location.href = url;
+        }
+      });
+    });
+  });
+
 });
 
+// ------------------------------------------------------
+// 4️⃣ Funciones auxiliares
+// ------------------------------------------------------
 function leer(form, name) {
   const el = form.querySelector(`[name="${name}"]`);
-  // si no existe, devuelve string vacío; si existe, devuelve value recortado
   return (el?.value ?? '').toString().trim();
 }
 
 function validarFormulario(form, esCreacion = true) {
-  const ci = leer(form,'ci_usuario');
-  const nombre = leer(form,'nombre_usuario');
-  const apellido = leer(form,'apellido_usuario');
-  const gmail = leer(form,'gmail_usuario');
-  const telefono = leer(form,'telefono_usuario');
-  const cargo = leer(form,'cargo_usuario');
-  const contrasenia = leer(form,'contrasenia_usuario');
-
+  const ci = leer(form, 'ci_usuario');
+  const nombre = leer(form, 'nombre_usuario');
+  const apellido = leer(form, 'apellido_usuario');
+  const gmail = leer(form, 'gmail_usuario');
+  const telefono = leer(form, 'telefono_usuario');
+  const cargo = leer(form, 'cargo_usuario');
+  const contrasenia = leer(form, 'contrasenia_usuario');
 
   if (!ci || !nombre || !apellido || !gmail || !telefono || !cargo) {
-    alertSwal('Campos incompletos','Todos los campos son obligatorios'); return false;
+    alertSwal('Campos incompletos', 'Todos los campos son obligatorios');
+    return false;
   }
 
   if (!/^\d{8}$/.test(ci)) {
-    alertSwal('Cédula inválida','La cédula debe tener 8 dígitos'); return false;
+    alertSwal('Cédula inválida', 'La cédula debe tener 8 dígitos');
+    return false;
   }
 
   if (!/^\d{9}$/.test(telefono)) {
-    alertSwal('Teléfono inválido','El teléfono debe tener 9 dígitos'); return false;
+    alertSwal('Teléfono inválido', 'El teléfono debe tener 9 dígitos');
+    return false;
   }
 
   if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(gmail)) {
-    alertSwal('Email inválido','Por favor ingrese un email válido'); return false;
+    alertSwal('Email inválido', 'Por favor ingrese un email válido');
+    return false;
   }
 
   if (!contrasenia) {
-    alertSwal('Contraseña requerida','Debe ingresar una contraseña'); return false;
+    alertSwal('Contraseña requerida', 'Debe ingresar una contraseña');
+    return false;
   }
 
   if (contrasenia.length < 8 || contrasenia.length > 20) {
-    alertSwal('Contraseña inválida','La contraseña debe tener entre 8 y 20 caracteres'); return false;
+    alertSwal('Contraseña inválida', 'Debe tener entre 8 y 20 caracteres');
+    return false;
   }
 
   const tieneMayus = /[A-Z]/.test(contrasenia);
   const tieneMinus = /[a-z]/.test(contrasenia);
   const tieneNumero = /[0-9]/.test(contrasenia);
   if (!tieneMayus || !tieneMinus || !tieneNumero) {
-    alertSwal('Contraseña inválida','La contraseña debe tener: al menos una MAYÚSCULA, una minúscula y un número'); return false;
+    alertSwal('Contraseña inválida', 'Debe contener al menos una MAYÚSCULA, una minúscula y un número');
+    return false;
   }
 
   return true;
 }
 
+function validarFormularioEdicion(form) {
+  const ci = leer(form, 'ci_usuario');
+  const nombre = leer(form, 'nombre_usuario');
+  const apellido = leer(form, 'apellido_usuario');
+  const gmail = leer(form, 'gmail_usuario');
+  const telefono = leer(form, 'telefono_usuario');
+  const cargo = leer(form, 'cargo_usuario');
+  const contrasenia = leer(form, 'contrasenia_usuario');
 
+  if (!ci || !nombre || !apellido || !gmail || !telefono || !cargo) {
+    alertSwal('Campos incompletos', 'Todos los campos son obligatorios');
+    return false;
+  }
 
-// ----------------------------
-// Evitar reenvío al recargar
-// ----------------------------
+  if (!/^\d{8}$/.test(ci)) {
+    alertSwal('Cédula inválida', 'La cédula debe tener 8 dígitos');
+    return false;
+  }
+
+  if (!/^\d{9}$/.test(telefono)) {
+    alertSwal('Teléfono inválido', 'El teléfono debe tener 9 dígitos');
+    return false;
+  }
+
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(gmail)) {
+    alertSwal('Email inválido', 'Por favor ingrese un email válido');
+    return false;
+  }
+
+  if (contrasenia) {
+    if (contrasenia.length < 8 || contrasenia.length > 20) {
+      alertSwal('Contraseña inválida', 'Debe tener entre 8 y 20 caracteres');
+      return false;
+    }
+
+    const tieneMayus = /[A-Z]/.test(contrasenia);
+    const tieneMinus = /[a-z]/.test(contrasenia);
+    const tieneNumero = /[0-9]/.test(contrasenia);
+
+    if (!tieneMayus || !tieneMinus || !tieneNumero) {
+      alertSwal('Contraseña inválida', 'Debe contener al menos una MAYÚSCULA, una minúscula y un número');
+      return false;
+    }
+  }
+
+  return true;
+}
+
+// ------------------------------------------------------
+// 5️⃣ Utilidades generales
+// ------------------------------------------------------
 if (window.history.replaceState) {
-    window.history.replaceState(null, null, window.location.pathname);
+  window.history.replaceState(null, null, window.location.pathname);
 }
 
 function alertSwal(title, text) {
