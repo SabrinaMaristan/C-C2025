@@ -146,6 +146,13 @@ function validarFormularioEdicion(form) {
   return true;
 }
 
+// ----------------------------
+// Evitar reenvío al recargar
+// ----------------------------
+if (window.history.replaceState) {
+    window.history.replaceState(null, null, window.location.pathname);
+}
+
 function alertSwal(title, text) {
   if (window.Swal) {
     Swal.fire({ icon: 'error', title, text, confirmButtonColor: '#d33' });
