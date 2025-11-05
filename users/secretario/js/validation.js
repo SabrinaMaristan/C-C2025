@@ -249,12 +249,6 @@ function validarFormularioEdicion(form) {
   return true;
 }
 
-// ------------------------------------------------------
-// 5️⃣ Utilidades generales
-// ------------------------------------------------------
-if (window.history.replaceState) {
-  window.history.replaceState(null, null, window.location.pathname);
-}
 
 function alertSwal(title, text) {
   if (window.Swal) {
