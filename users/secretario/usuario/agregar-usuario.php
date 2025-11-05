@@ -62,22 +62,22 @@ function validaciones($conn, $ci_usuario, $nombre_usuario, $apellido_usuario,
     if(empty($ci_usuario) || empty($nombre_usuario)|| empty($apellido_usuario) || 
        empty($gmail_usuario) || empty($telefono_usuario) || empty($cargo_usuario) ||
        empty($contrasenia_usuario)) {
-        header("Location: ./secretario-usuario.php?error=CamposVacios");
+        header("Location: ./secretario-usuario.php?error=CamposVacios&abrirModal=true");
         exit;
     } else if(!preg_match("/^[0-9]{8}$/", $ci_usuario)) {
-        header("Location: ./secretario-usuario.php?error=CiInvalida");
+        header("Location: ./secretario-usuario.php?error=CiInvalida&abrirModal=true");
         exit;
     } else if (!preg_match("/^[0-9]{9}$/", $telefono_usuario)) {
-        header("Location: ./secretario-usuario.php?error=TelefonoInvalido");
+        header("Location: ./secretario-usuario.php?error=TelefonoInvalido&abrirModal=true");
         exit;
     } else if (!preg_match("/^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9]).{8,20}$/", $contrasenia_usuario)) {
-        header("Location: ./secretario-usuario.php?error=ContraseniaInvalida");
+        header("Location: ./secretario-usuario.php?error=ContraseniaInvalida&abrirModal=true");
         exit;
     }
 
     $duplicado = consultarBD($conn, $ci_usuario, $gmail_usuario, $telefono_usuario);
     if ($duplicado) {
-        header("Location: ./secretario-usuario.php?error=Duplicado&campo={$duplicado}");
+        header("Location: ./secretario-usuario.php?error=Duplicado&campo={$duplicado}&abrirModal=true");
         exit;
     }
 

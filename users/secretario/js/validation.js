@@ -1,4 +1,79 @@
+// ------------------------------------------------------
+// EVENTOS AL CARGAR EL DOCUMENTO
+// ------------------------------------------------------
 document.addEventListener('DOMContentLoaded', () => {
+
+  // ------------------------------------------------------
+  // Mostrar alertas según parámetros GET (error o mensaje)
+  // ------------------------------------------------------
+  const params = new URLSearchParams(window.location.search);
+
+  if (window.Swal && params.has("error")) {
+    const error = params.get("error");
+    const campo = params.get("campo") || "dato";
+
+    const errores = {
+      CamposVacios: {
+        title: "Campos vacíos",
+        text: "Por favor complete todos los campos.",
+      },
+      CiInvalida: {
+        title: "Cédula inválida",
+        text: "Debe tener 8 dígitos.",
+      },
+      TelefonoInvalido: {
+        title: "Teléfono inválido",
+        text: "Debe tener 9 dígitos.",
+      },
+      ContraseniaInvalida: {
+        title: "Contraseña inválida",
+        text: "Debe tener entre 8 a 20 caracteres, incluir mayúsculas, minúsculas y números.",
+      },
+      Duplicado: {
+        title: "Usuario duplicado",
+        text: `Ya existe un usuario con ese ${campo} registrado.`,
+      },
+    };
+
+    const alerta = errores[error];
+    if (alerta)
+      Swal.fire({
+        icon: "error",
+        title: alerta.title,
+        text: alerta.text,
+        confirmButtonColor: "#d33",
+      });
+  }
+
+  // Reabrir el modal automáticamente si corresponde
+  if (params.get("abrirModal") === "true") {
+    const modalEl = document.getElementById("modalUsuario");
+    if (modalEl) {
+      const modal = new bootstrap.Modal(modalEl);
+      modal.show();
+    }
+  }
+
+  // Mensajes de éxito
+  if (window.Swal && params.has("msg")) {
+    const msg = params.get("msg");
+    const exitos = {
+      InsercionExitosa: "Creación de Usuario Exitosa",
+      EdicionExitosa: "¡Edición Exitosa!",
+      EliminacionExitosa: "¡Eliminación Exitosa!",
+    };
+    if (exitos[msg])
+      Swal.fire({
+        icon: "success",
+        title: exitos[msg],
+        confirmButtonColor: "rgba(95, 102, 207, 1)",
+      });
+  }
+
+  // ------------------------------------------------------
+  // VALIDACIONES DE FORMULARIOS
+  // ------------------------------------------------------
+
   // ---- EDICIÓN (delegación por seguridad) ----
   document.addEventListener('submit', (e) => {
     const form = e.target;
@@ -21,7 +96,6 @@ document.addEventListener('DOMContentLoaded', () => {
         cancelButtonText: 'Cancelar'
       }).then((r) => { if (r.isConfirmed) form.submit(); });
     } else {
-      // Fallback si SweetAlert no cargó
       if (confirm('¿Deseas guardar los cambios?')) form.submit();
     }
   });
@@ -67,7 +141,6 @@ function validarFormulario(form, esCreacion = true) {
   const cargo = leer(form,'cargo_usuario');
   const contrasenia = leer(form,'contrasenia_usuario');
 
-  console.log('Valores creación:', {ci, nombre, apellido, gmail, telefono, cargo, contraseniaVacia: !contrasenia});
 
   if (!ci || !nombre || !apellido || !gmail || !telefono || !cargo) {
     alertSwal('Campos incompletos','Todos los campos son obligatorios'); return false;

@@ -355,30 +355,5 @@ while($row = mysqli_fetch_array($query)) {
     <!-- Scripts -->
     <script src="../js/validation.js"></script>
 
-    <script>
-      console.log("Scripts cargados correctamente");
-    </script>
-     <?php if(isset($_GET['error'])) {
-  if($_GET['error'] == 'CamposVacios') { ?>
-    <script>Swal.fire({icon:'error',title:'Campos vacíos',text:'Por favor complete todos los campos.',confirmButtonColor:'#d33'});</script>
-  <?php } else if($_GET['error'] == 'CiInvalida'){ ?>
-    <script>Swal.fire({icon:'error',title:'Cédula inválida',text:'Debe tener 8 dígitos.',confirmButtonColor:'#d33'});</script>
-  <?php } else if($_GET['error'] == 'TelefonoInvalido'){ ?>
-    <script>Swal.fire({icon:'error',title:'Teléfono inválido',text:'Debe tener 9 dígitos.',confirmButtonColor:'#d33'});</script>
-  <?php } else if($_GET['error'] == 'ContraseniaInvalida'){ ?>
-    <script>Swal.fire({icon:'error',title:'Contraseña inválida',text:'Debe tener entre 8 a 20 caracteres, incluir mayúsculas, minúsculas y números.',confirmButtonColor:'#d33'});</script>
-  <?php } else if($_GET['error'] == 'Duplicado') {
-    $campo = $_GET['campo'] ?? 'dato';
-  ?>
-    <script>
-      Swal.fire({
-        icon:'error',
-        title:'Usuario duplicado',
-        text:'Ya existe un usuario con ese <?= htmlspecialchars($campo) ?> registrado.',
-        confirmButtonColor:'#d33'
-      });
-    </script>
-  <?php } } ?>
-
   </body>
   </html>
