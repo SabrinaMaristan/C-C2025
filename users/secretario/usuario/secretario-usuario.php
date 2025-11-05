@@ -359,84 +359,26 @@ while($row = mysqli_fetch_array($query)) {
       console.log("Scripts cargados correctamente");
     </script>
      <?php if(isset($_GET['error'])) {
-    if($_GET['error'] == 'CamposVacios') { ?>
-    <script>
-       Swal.fire({
-          icon: 'error',
-          title: 'Los campos no puede estar vacíos.',
-          text: 'Por favor intente de nuevo',
-          confirmButtonColor: '#d33'
-        });
-    </script>
-  <?php } else if($_GET['error'] == 'CiInvalida') {?>
-      <script>
-       Swal.fire({
-            icon: 'error',
-            title: 'La cédula es inválida',
-            text: 'Debe tener 8 caracteres.',
-            confirmButtonColor: '#d33'
-        });
-    </script>
+  if($_GET['error'] == 'CamposVacios') { ?>
+    <script>Swal.fire({icon:'error',title:'Campos vacíos',text:'Por favor complete todos los campos.',confirmButtonColor:'#d33'});</script>
+  <?php } else if($_GET['error'] == 'CiInvalida'){ ?>
+    <script>Swal.fire({icon:'error',title:'Cédula inválida',text:'Debe tener 8 dígitos.',confirmButtonColor:'#d33'});</script>
   <?php } else if($_GET['error'] == 'TelefonoInvalido'){ ?>
-    <script>
-       Swal.fire({
-            icon: 'error',
-            title: 'El telefono es inválido',
-            text: 'El teléfono ingresado debe tener 9 caracteres.',
-            confirmButtonColor: '#d33'
-        });
-    </script>
+    <script>Swal.fire({icon:'error',title:'Teléfono inválido',text:'Debe tener 9 dígitos.',confirmButtonColor:'#d33'});</script>
   <?php } else if($_GET['error'] == 'ContraseniaInvalida'){ ?>
+    <script>Swal.fire({icon:'error',title:'Contraseña inválida',text:'Debe tener entre 8 a 20 caracteres, incluir mayúsculas, minúsculas y números.',confirmButtonColor:'#d33'});</script>
+  <?php } else if($_GET['error'] == 'Duplicado') {
+    $campo = $_GET['campo'] ?? 'dato';
+  ?>
     <script>
-       Swal.fire({
-            icon: 'error',
-            title: 'Contraseña inválida.',
-            text: 'Debe tener entre 8 a 20 caracteres, al menos unna mayúscula, una minúscula y un número.',
-            confirmButtonColor: '#d33'
-        });
-    </script>
-  <?php } else if($_GET['error'] == 'UsuarioYaExistente') { ?>
-    <script>
-       Swal.fire({
-            icon: 'error',
-            title: 'El usuario ya existe.',
-            text: 'Intente nuevamente.',
-            confirmButtonColor: '#d33'
-        });
-    </script>
-  <?php } else if($_GET['msg'] == 'InsercionExitosa') { ?>
-    <script>
-       Swal.fire({
-            icon: 'success',
-            title: 'Creación de Usuario Exitosa',
-            confirmButtonColor: 'rgba(50, 81, 185, 1)'
-        });
-    </script>
-  <?php } } else if(isset($_GET['msg'])) {
-    if($_GET['msg'] == 'EdicionExitosa') { ?>
-    <script>
-       Swal.fire({
-            icon: 'success',
-            title: '¡Edición Exitosa!',
-            confirmButtonColor: 'rgba(95, 102, 207, 1)'
-        });
-    </script>
-  <?php } else if($_GET['msg'] == 'InsercionExitosa') { ?>
-    <script>
-       Swal.fire({
-            icon: 'success',
-            title: '¡Inserción Exitosa!',
-            confirmButtonColor: 'rgba(95, 102, 207, 1)'
-        });
-    </script>
-  <?php } else if($_GET['msg'] == 'EliminacionExitosa') { ?>
-    <script>
-       Swal.fire({
-            icon: 'success',
-            title: '¡Eliminación Exitosa!',
-            confirmButtonColor: 'rgba(95, 102, 207, 1)'
-        });
+      Swal.fire({
+        icon:'error',
+        title:'Usuario duplicado',
+        text:'Ya existe un usuario con ese <?= htmlspecialchars($campo) ?> registrado.',
+        confirmButtonColor:'#d33'
+      });
     </script>
   <?php } } ?>
+
   </body>
   </html>

@@ -15,57 +15,46 @@ if($_SERVER['REQUEST_METHOD'] === 'POST') {
     $validacion_result = validaciones($conn, $ci_usuario, $nombre_usuario, $apellido_usuario, $gmail_usuario,
                                         $telefono_usuario, $contrasenia_usuario, $cargo_usuario);
 
-    if (($validacion_result === true)) {
+    if ($validacion_result === true) {
         // Hashear la contraseña
         $hashed_password = password_hash($contrasenia_usuario, PASSWORD_BCRYPT);
 
         $sql = "INSERT INTO usuario
             (ci_usuario, nombre_usuario, apellido_usuario, gmail_usuario, telefono_usuario, cargo_usuario, contrasenia_usuario)
             VALUES (?, ?, ?, ?, ?, ?, ?)";
-         $stmt = mysqli_prepare($conn, $sql);
-        if ($stmt === false) {
-            die("Error en prepare: " . mysqli_error($conn));
-        }
+        $stmt = mysqli_prepare($conn, $sql);
         mysqli_stmt_bind_param($stmt, "sssssss", $ci_usuario, $nombre_usuario, $apellido_usuario, $gmail_usuario, $telefono_usuario, $cargo_usuario, $hashed_password);
         $success = mysqli_stmt_execute($stmt);
         $idUsuario = $conn->insert_id;
 
-        if ($cargo_usuario === "Docente") {
-            $sql_docente = "INSERT INTO docente (id_usuario)
-                            VALUES (?);";
-            $stmt_doc = mysqli_prepare($conn, $sql_docente);
-            mysqli_stmt_bind_param($stmt_doc, "i", $idUsuario);
-            mysqli_stmt_execute($stmt_doc);
-
-        } elseif ($cargo_usuario === "Adscripto") {
-            $sql_adscripto = "INSERT INTO adscripto (id_usuario)
-                              VALUES (?)";
-            $stmt_ads = mysqli_prepare($conn, $sql_adscripto);
-
-            if (!$stmt_ads) {
-                die("Error prepare adscripto: " . mysqli_error($conn));
+        if ($success) {
+            switch ($cargo_usuario) {
+                case "Docente":
+                    $stmt_doc = $conn->prepare("INSERT INTO docente (id_usuario) VALUES (?)");
+                    $stmt_doc->bind_param("i", $idUsuario);
+                    $stmt_doc->execute();
+                    break;
+                case "Adscripto":
+                    $stmt_ads = $conn->prepare("INSERT INTO adscripto (id_usuario) VALUES (?)");
+                    $stmt_ads->bind_param("i", $idUsuario);
+                    $stmt_ads->execute();
+                    break;
+                case "Secretario":
+                    $stmt_sec = $conn->prepare("INSERT INTO secretario (id_usuario) VALUES (?)");
+                    $stmt_sec->bind_param("i", $idUsuario);
+                    $stmt_sec->execute();
+                    break;
             }
-            mysqli_stmt_bind_param($stmt_ads, "i", $idUsuario);
-            mysqli_stmt_execute($stmt_ads);
-        } elseif ($cargo_usuario === "Secretario") {
-            $sql_secretario = "INSERT INTO secretario (id_usuario)
-                                VALUES (?)";
-             $stmt_sec = mysqli_prepare($conn, $sql_secretario);
-            mysqli_stmt_bind_param($stmt_sec, "i", $idUsuario);
-            mysqli_stmt_execute($stmt_sec);
+            header("Location: ./secretario-usuario.php?msg=InsercionExitosa");
+            exit;
+        } else {
+            echo "Error en la inserción: " . mysqli_error($conn);
         }
-
-    if ($success) {
-        // Redirige de nuevo al listado
-        header("Location: ./secretario-usuario.php?msg=InsercionExitosa");
-        exit;
-    } else {
-        echo "Error en la inserción: " . mysqli_error($conn);
-    }
-
     }
 }
-   mysqli_close($conn);
+mysqli_close($conn);
+
+// ==================== FUNCIONES ====================
 
 function validaciones($conn, $ci_usuario, $nombre_usuario, $apellido_usuario,
                      $gmail_usuario, $telefono_usuario, $contrasenia_usuario,
@@ -75,33 +64,40 @@ function validaciones($conn, $ci_usuario, $nombre_usuario, $apellido_usuario,
        empty($contrasenia_usuario)) {
         header("Location: ./secretario-usuario.php?error=CamposVacios");
         exit;
-    } else if((!preg_match("/^[0-9]{8}$/", $ci_usuario))) {
+    } else if(!preg_match("/^[0-9]{8}$/", $ci_usuario)) {
         header("Location: ./secretario-usuario.php?error=CiInvalida");
         exit;
-    } else if (!preg_match("/^\+?[0-9]{9}$/", $telefono_usuario)) {
+    } else if (!preg_match("/^[0-9]{9}$/", $telefono_usuario)) {
         header("Location: ./secretario-usuario.php?error=TelefonoInvalido");
         exit;
-    } else if (!preg_match("/^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])[A-Za-z\d@$!%*?&]{8,20}$/", $contrasenia_usuario)) {
+    } else if (!preg_match("/^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9]).{8,20}$/", $contrasenia_usuario)) {
         header("Location: ./secretario-usuario.php?error=ContraseniaInvalida");
         exit;
-    } else if (!consultarBD($conn, $ci_usuario, $gmail_usuario)) {
-        header("Location: ./secretario-usuario.php?error=UsuarioYaExistente");
-        exit;
-    } else {
-        return true;
     }
-        
+
+    $duplicado = consultarBD($conn, $ci_usuario, $gmail_usuario, $telefono_usuario);
+    if ($duplicado) {
+        header("Location: ./secretario-usuario.php?error=Duplicado&campo={$duplicado}");
+        exit;
+    }
+
+    return true;
 }
 
-function consultarBD($conn, $ci_usuario) {
-    $query_val = "SELECT * FROM usuario WHERE ci_usuario = ? ";
-    $stmt = mysqli_prepare($conn, $query_val);
-    mysqli_stmt_bind_param($stmt, "s", $ci_usuario);
+function consultarBD($conn, $ci_usuario, $gmail_usuario, $telefono_usuario) {
+    $query = "SELECT ci_usuario, gmail_usuario, telefono_usuario FROM usuario 
+              WHERE ci_usuario = ? OR gmail_usuario = ? OR telefono_usuario = ?";
+    $stmt = mysqli_prepare($conn, $query);
+    mysqli_stmt_bind_param($stmt, "sss", $ci_usuario, $gmail_usuario, $telefono_usuario);
     mysqli_stmt_execute($stmt);
-    $result = mysqli_stmt_get_result($stmt);
-    mysqli_stmt_close($stmt);
+    $res = mysqli_stmt_get_result($stmt);
+    $row = mysqli_fetch_assoc($res);
 
-    return mysqli_num_rows($result) === 0;
+    if ($row) {
+        if ($row['ci_usuario'] == $ci_usuario) return 'cedula';
+        if ($row['gmail_usuario'] == $gmail_usuario) return 'email';
+        if ($row['telefono_usuario'] == $telefono_usuario) return 'telefono';
+    }
+    return null;
 }
-
 ?>

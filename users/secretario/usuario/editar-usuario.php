@@ -12,6 +12,29 @@ $telefono_usuario = $_POST['telefono_usuario'];
 $cargo_usuario = $_POST['cargo_usuario'];
 $contrasenia_usuario = $_POST['contrasenia_usuario']; //if '' ? null : hash
 
+// --- Validar duplicados (sin incluirse a sí mismo)
+$sql_dup = "SELECT id_usuario, ci_usuario, gmail_usuario, telefono_usuario FROM usuario 
+            WHERE (ci_usuario = ? OR gmail_usuario = ? OR telefono_usuario = ?) 
+            AND id_usuario <> ?";
+$stmt_dup = $conn->prepare($sql_dup);
+$stmt_dup->bind_param("sssi", $ci_usuario, $gmail_usuario, $telefono_usuario, $id_usuario);
+$stmt_dup->execute();
+$res = $stmt_dup->get_result();
+$dup = $res->fetch_assoc();
+
+if ($dup) {
+    $campo = '';
+    if ($dup['ci_usuario'] == $ci_usuario) $campo = 'la cédula';
+    elseif ($dup['gmail_usuario'] == $gmail_usuario) $campo = 'el email';
+    elseif ($dup['telefono_usuario'] == $telefono_usuario) $campo = 'el teléfono';
+    echo "<script>
+        window.onload = function() {
+          Swal.fire({icon:'error',title:'Dato duplicado',text:'Ya existe un usuario con $campo ingresado.',confirmButtonColor:'#d33'});
+        }
+      </script>";
+    exit;
+}
+
 $hashed_password = password_hash($contrasenia_usuario, PASSWORD_BCRYPT);
 
 if(empty($contrasenia_usuario)) {
