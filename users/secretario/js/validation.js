@@ -176,48 +176,7 @@ function validarFormulario(form, esCreacion = true) {
   return true;
 }
 
-function validarFormularioEdicion(form) {
-  const ci = leer(form,'ci_usuario');
-  const nombre = leer(form,'nombre_usuario');
-  const apellido = leer(form,'apellido_usuario');
-  const gmail = leer(form,'gmail_usuario');
-  const telefono = leer(form,'telefono_usuario');
-  const cargo = leer(form,'cargo_usuario');
-  // en edición, la contraseña puede venir vacía (no cambiar)
-  const contrasenia = leer(form,'contrasenia_usuario');
 
-  console.log('Valores edición:', {ci, nombre, apellido, gmail, telefono, cargo, contrasenia});
-
-  if (!ci || !nombre || !apellido || !gmail || !telefono || !cargo) {
-    alertSwal('Campos incompletos','Todos los campos son obligatorios'); return false;
-  }
-
-  if (!/^\d{8}$/.test(ci)) {
-    alertSwal('Cédula inválida','La cédula debe tener 8 dígitos'); return false;
-  }
-
-  if (!/^\d{9}$/.test(telefono)) {
-    alertSwal('Teléfono inválido','El teléfono debe tener 9 dígitos'); return false;
-  }
-
-  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(gmail)) {
-    alertSwal('Email inválido','Por favor ingrese un email válido'); return false;
-  }
-
-  if (contrasenia) {
-    if (contrasenia.length < 8 || contrasenia.length > 20) {
-      alertSwal('Contraseña inválida','La contraseña debe tener entre 8 y 20 caracteres'); return false;
-    }
-    const tieneMayus = /[A-Z]/.test(contrasenia);
-    const tieneMinus = /[a-z]/.test(contrasenia);
-    const tieneNumero = /[0-9]/.test(contrasenia);
-    if (!tieneMayus || !tieneMinus || !tieneNumero) {
-      alertSwal('Contraseña inválida','La contraseña debe tener: al menos una MAYÚSCULA, una minúscula y un número'); return false;
-    }
-  }
-
-  return true;
-}
 
 // ----------------------------
 // Evitar reenvío al recargar
