@@ -122,7 +122,7 @@ while($row = mysqli_fetch_array($query)) {
 
       <button class="boton-opciones2 agregar colorfondorosa"
                             data-bs-toggle="modal"
-                            data-bs-target="#modalGrupo"
+                            data-bs-target="#modalUsuario"
                             onclick="document.getElementById('accion').value='insertar';">
                       <h4>+</h4></button>
 
@@ -322,7 +322,7 @@ while($row = mysqli_fetch_array($query)) {
 
                   <div class="mb-3">
                     <label data-i18n="password">Contraseña</label>
-                    <input type="password" name="contrasenia_usuario" class="form-control"required>
+                    <input type="password" name="contrasenia_usuario" id="contrasenia_usuario" class="form-control"required>
                   </div>
                 </div>
 
