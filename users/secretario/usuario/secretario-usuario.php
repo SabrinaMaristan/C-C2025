@@ -194,147 +194,127 @@ while ($row = mysqli_fetch_array($query)) {
 
       <!-- Modales de edición -->
       <?php foreach($usuarios as $row): ?>
-      <div class="modal fade" id="update_modal<?= $row['id_usuario'] ?>" tabindex="-1" aria-labelledby="update_modal<?= $row['id_usuario'] ?>Label" aria-hidden="true">
+      <div class="modal fade" id="update_modal<?= $row['id_usuario'] ?>" tabindex="-1">
         <div class="modal-dialog">
           <div class="modal-content">
             <div class="modal-header">
-              <h5 class="modal-title" id="modalEditarUsuarioLabel">Editar Usuario</h5>
-              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+              <h5 class="modal-title">Editar Usuario</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
             </div>
-
-            <form action="./editar-usuario.php" method="POST" id="editarUsuarioForm">
+            <form method="POST" action="./editar-usuario.php" id="editarUsuarioForm<?= $row['id_usuario'] ?>">
               <div class="modal-body">
-                <input type="hidden" name="id_usuario" value="<?= htmlspecialchars($usuarioEditar['id_usuario'] ?? $old_edit['id_usuario'] ?? '') ?>">
-
+                <input type="hidden" name="id_usuario" value="<?= $row['id_usuario'] ?>">
                 <div class="mb-3">
-                  <label class="form-label">Cédula de identidad</label>
-                  <input type="text" name="ci_usuario" class="form-control"
-                        value="<?= htmlspecialchars($old_edit['ci_usuario'] ?? $usuarioEditar['ci_usuario'] ?? '') ?>">
+                  <label>Cédula de identidad</label>
+                  <input type="number" name="ci_usuario" class="form-control" value="<?= $row['ci_usuario'] ?>">
                 </div>
-
                 <div class="mb-3">
-                  <label class="form-label">Nombre</label>
-                  <input type="text" name="nombre_usuario" class="form-control"
-                        value="<?= htmlspecialchars($old_edit['nombre_usuario'] ?? $usuarioEditar['nombre_usuario'] ?? '') ?>">
+                  <label>Nombre</label>
+                  <input type="text" name="nombre_usuario" class="form-control" value="<?= $row['nombre_usuario'] ?>">
                 </div>
-
                 <div class="mb-3">
-                  <label class="form-label">Apellido</label>
-                  <input type="text" name="apellido_usuario" class="form-control"
-                        value="<?= htmlspecialchars($old_edit['apellido_usuario'] ?? $usuarioEditar['apellido_usuario'] ?? '') ?>">
+                  <label>Apellido</label>
+                  <input type="text" name="apellido_usuario" class="form-control" value="<?= $row['apellido_usuario'] ?>">
                 </div>
-
                 <div class="mb-3">
-                  <label class="form-label">Email</label>
-                  <input type="email" name="gmail_usuario" class="form-control"
-                        value="<?= htmlspecialchars($old_edit['gmail_usuario'] ?? $usuarioEditar['gmail_usuario'] ?? '') ?>">
+                  <label>Email</label>
+                  <input type="email" name="gmail_usuario" class="form-control" value="<?= $row['gmail_usuario'] ?>">
                 </div>
-
                 <div class="mb-3">
-                  <label class="form-label">Teléfono</label>
-                  <input type="text" name="telefono_usuario" class="form-control"
-                        value="<?= htmlspecialchars($old_edit['telefono_usuario'] ?? $usuarioEditar['telefono_usuario'] ?? '') ?>">
+                  <label>Teléfono</label>
+                  <input type="number" name="telefono_usuario" class="form-control" value="<?= $row['telefono_usuario'] ?>">
                 </div>
-
                 <div class="mb-3">
-                  <label class="form-label">Cargo</label>
+                  <label>Cargo</label>
                   <select name="cargo_usuario" class="form-select">
                     <option value="">Seleccionar</option>
-                    <option value="Secretario" <?= (
-                      ($old_edit['cargo_usuario'] ?? $usuarioEditar['cargo_usuario'] ?? '') === 'Secretario' ? 'selected' : ''
-                    ) ?>>Secretario</option>
-                    <option value="Docente" <?= (
-                      ($old_edit['cargo_usuario'] ?? $usuarioEditar['cargo_usuario'] ?? '') === 'Docente' ? 'selected' : ''
-                    ) ?>>Docente</option>
-                    <option value="Adscripto" <?= (
-                      ($old_edit['cargo_usuario'] ?? $usuarioEditar['cargo_usuario'] ?? '') === 'Adscripto' ? 'selected' : ''
-                    ) ?>>Adscripto</option>
+                    <option value="Docente" <?= ($row['cargo_usuario'] == 'Docente') ? 'selected' : '' ?>>Docente</option>
+                    <option value="Adscripto" <?= ($row['cargo_usuario'] == 'Adscripto') ? 'selected' : '' ?>>Adscripto</option>
+                    <option value="Secretario" <?= ($row['cargo_usuario'] == 'Secretario') ? 'selected' : '' ?>>Secretario</option>
                   </select>
                 </div>
-
                 <div class="mb-3">
-                  <label class="form-label">Nueva Contraseña (opcional)</label>
-                  <input type="password" name="contrasenia_usuario" class="form-control"
-                        value="<?= htmlspecialchars($old_edit['contrasenia_usuario'] ?? '') ?>">
+                  <label>Contraseña</label>
+                  <input type="password" name="contrasenia_usuario" class="form-control" value="">
+                  <small class="text-muted">Dejar en blanco si no se quiere cambiar la contraseña.</small>
                 </div>
               </div>
-
               <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+                <button type="submit" class="btn btn-primary">Guardar</button>
               </div>
             </form>
           </div>
         </div>
       </div>
-    <?php endforeach; ?>
+      <?php endforeach; ?>
 
-            <!-- Modal creación -->
+      <!-- Modal creación -->
       <div class="modal fade" id="modalUsuario" tabindex="-1" aria-labelledby="modalUsuarioLabel" aria-hidden="true">
-        <div class="modal-dialog">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title" id="modalUsuarioLabel">Agregar Usuario</h5>
-              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
-            </div>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modalUsuarioLabel">Agregar Usuario</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+      </div>
 
-            <form action="./agregar-usuario.php" method="POST">
-              <div class="modal-body">
-                <div class="mb-3">
-                  <label class="form-label">Cédula de identidad</label>
-                  <input type="text" name="ci_usuario" class="form-control" 
-                        value="<?= htmlspecialchars($old['ci_usuario'] ?? '') ?>">
-                </div>
+      <form action="./agregar-usuario.php" method="POST">
+        <div class="modal-body">
+          <div class="mb-3">
+            <label class="form-label">Cédula de identidad</label>
+            <input type="text" name="ci_usuario" class="form-control" 
+                   value="<?= htmlspecialchars($old['ci_usuario'] ?? '') ?>">
+          </div>
 
-                <div class="mb-3">
-                  <label class="form-label">Nombre</label>
-                  <input type="text" name="nombre_usuario" class="form-control"
-                        value="<?= htmlspecialchars($old['nombre_usuario'] ?? '') ?>">
-                </div>
+          <div class="mb-3">
+            <label class="form-label">Nombre</label>
+            <input type="text" name="nombre_usuario" class="form-control"
+                   value="<?= htmlspecialchars($old['nombre_usuario'] ?? '') ?>">
+          </div>
 
-                <div class="mb-3">
-                  <label class="form-label">Apellido</label>
-                  <input type="text" name="apellido_usuario" class="form-control"
-                        value="<?= htmlspecialchars($old['apellido_usuario'] ?? '') ?>">
-                </div>
+          <div class="mb-3">
+            <label class="form-label">Apellido</label>
+            <input type="text" name="apellido_usuario" class="form-control"
+                   value="<?= htmlspecialchars($old['apellido_usuario'] ?? '') ?>">
+          </div>
 
-                <div class="mb-3">
-                  <label class="form-label">Email</label>
-                  <input type="email" name="gmail_usuario" class="form-control"
-                        value="<?= htmlspecialchars($old['gmail_usuario'] ?? '') ?>">
-                </div>
+          <div class="mb-3">
+            <label class="form-label">Email</label>
+            <input type="email" name="gmail_usuario" class="form-control"
+                   value="<?= htmlspecialchars($old['gmail_usuario'] ?? '') ?>">
+          </div>
 
-                <div class="mb-3">
-                  <label class="form-label">Teléfono</label>
-                  <input type="text" name="telefono_usuario" class="form-control"
-                        value="<?= htmlspecialchars($old['telefono_usuario'] ?? '') ?>">
-                </div>
+          <div class="mb-3">
+            <label class="form-label">Teléfono</label>
+            <input type="text" name="telefono_usuario" class="form-control"
+                   value="<?= htmlspecialchars($old['telefono_usuario'] ?? '') ?>">
+          </div>
 
-                <div class="mb-3">
-                  <label class="form-label">Cargo</label>
-                  <select name="cargo_usuario" class="form-select">
-                    <option value="">Seleccionar</option>
-                    <option value="Secretario" <?= (isset($old['cargo_usuario']) && $old['cargo_usuario'] === 'Secretario') ? 'selected' : '' ?>>Secretario</option>
-                    <option value="Docente" <?= (isset($old['cargo_usuario']) && $old['cargo_usuario'] === 'Docente') ? 'selected' : '' ?>>Docente</option>
-                    <option value="Adscripto" <?= (isset($old['cargo_usuario']) && $old['cargo_usuario'] === 'Adscripto') ? 'selected' : '' ?>>Adscripto</option>
-                  </select>
-                </div>
+          <div class="mb-3">
+            <label class="form-label">Cargo</label>
+            <select name="cargo_usuario" class="form-select">
+              <option value="">Seleccionar</option>
+              <option value="Secretario" <?= (isset($old['cargo_usuario']) && $old['cargo_usuario'] === 'Secretario') ? 'selected' : '' ?>>Secretario</option>
+              <option value="Docente" <?= (isset($old['cargo_usuario']) && $old['cargo_usuario'] === 'Docente') ? 'selected' : '' ?>>Docente</option>
+              <option value="Adscripto" <?= (isset($old['cargo_usuario']) && $old['cargo_usuario'] === 'Adscripto') ? 'selected' : '' ?>>Adscripto</option>
+            </select>
+          </div>
 
-                <div class="mb-3">
-                  <label class="form-label">Contraseña</label>
-                  <input type="password" name="contrasenia_usuario" class="form-control"
-                        value="<?= htmlspecialchars($old['contrasenia_usuario'] ?? '') ?>">
-                </div>
-              </div>
-
-              <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                <button type="submit" class="btn btn-success">Guardar</button>
-              </div>
-            </form>
+          <div class="mb-3">
+            <label class="form-label">Contraseña</label>
+            <input type="password" name="contrasenia_usuario" class="form-control"
+                   value="<?= htmlspecialchars($old['contrasenia_usuario'] ?? '') ?>">
           </div>
         </div>
-      </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+          <button type="submit" class="btn btn-success">Guardar</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
     </main>
   </div>
 
