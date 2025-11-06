@@ -192,7 +192,7 @@ while ($row = mysqli_fetch_array($query)) {
         </table>
       </div>
 
-      <!-- Modales de edición -->
+      <!-- Modal de edición -->
       <?php foreach($usuarios as $row): ?>
       <div class="modal fade" id="update_modal<?= $row['id_usuario'] ?>" tabindex="-1">
         <div class="modal-dialog">
@@ -210,15 +210,16 @@ while ($row = mysqli_fetch_array($query)) {
                 </div>
                 <div class="mb-3">
                   <label>Nombre</label>
-                  <input type="text" name="nombre_usuario" class="form-control" value="<?= $row['nombre_usuario'] ?>">
+                  <input type="text" name="nombre_usuario" class="form-control" value="<?= htmlspecialchars($old_edit['nombre_usuario'] ?? $row['nombre_usuario'] ?? '') ?>"
+>
                 </div>
                 <div class="mb-3">
                   <label>Apellido</label>
-                  <input type="text" name="apellido_usuario" class="form-control" value="<?= $row['apellido_usuario'] ?>">
+                  <input type="text" name="apellido_usuario" class="form-control" value="<?= htmlspecialchars($old_edit['apellido_usuario'] ?? $row['nombre_usuario'] ?? '') ?>">
                 </div>
                 <div class="mb-3">
                   <label>Email</label>
-                  <input type="email" name="gmail_usuario" class="form-control" value="<?= $row['gmail_usuario'] ?>">
+                  <input type="email" name="gmail_usuario" class="form-control" value="<?= htmlspecialchars($old_edit['telefono_usuario'] ?? $row['telefono_usuario'] ?? '') ?>">
                 </div>
                 <div class="mb-3">
                   <label>Teléfono</label>
@@ -228,9 +229,9 @@ while ($row = mysqli_fetch_array($query)) {
                   <label>Cargo</label>
                   <select name="cargo_usuario" class="form-select">
                     <option value="">Seleccionar</option>
-                    <option value="Docente" <?= ($row['cargo_usuario'] == 'Docente') ? 'selected' : '' ?>>Docente</option>
-                    <option value="Adscripto" <?= ($row['cargo_usuario'] == 'Adscripto') ? 'selected' : '' ?>>Adscripto</option>
-                    <option value="Secretario" <?= ($row['cargo_usuario'] == 'Secretario') ? 'selected' : '' ?>>Secretario</option>
+                    <option value="Docente" <?= (($old_edit['cargo_usuario'] ?? $row['cargo_usuario'] ?? '') === 'Docente') ? 'selected' : '' ?>>Docente</option>
+                    <option value="Adscripto" <?= (($old_edit['cargo_usuario'] ?? $row['cargo_usuario'] ?? '') === 'Adscripto') ? 'selected' : '' ?>>Adscripto</option>
+                    <option value="Secretario" <?= (($old_edit['cargo_usuario'] ?? $row['cargo_usuario'] ?? '') === 'Secretario') ? 'selected' : '' ?>>Secretario</option>
                   </select>
                 </div>
                 <div class="mb-3">

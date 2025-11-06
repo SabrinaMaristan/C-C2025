@@ -2,6 +2,7 @@
 session_start();
 include('./../../../conexion.php');
 $conn = conectar_bd();
+session_start();
 
 // -----------------------------------------------------------------------------
 // Capturar datos POST
@@ -16,30 +17,39 @@ $cargo_usuario = trim($_POST['cargo_usuario'] ?? '');
 $contrasenia_usuario = trim($_POST['contrasenia_usuario'] ?? '');
 
 // Guardar los valores en sesión temporalmente para repoblar si hay error
-$_SESSION['old_edit'] = $_POST;
+$_SESSION['old_edit'] = [
+  'id_usuario' => $id_usuario,
+  'ci_usuario' => $ci_usuario,
+  'nombre_usuario' => $nombre_usuario,
+  'apellido_usuario' => $apellido_usuario,
+  'gmail_usuario' => $gmail_usuario,
+  'telefono_usuario' => $telefono_usuario,
+  'cargo_usuario' => $cargo_usuario,
+  'contrasenia_usuario' => $contrasenia_usuario,
+];
 
 // -----------------------------------------------------------------------------
 // Validaciones
 // -----------------------------------------------------------------------------
 if (empty($ci_usuario) || empty($nombre_usuario) || empty($apellido_usuario) ||
     empty($gmail_usuario) || empty($telefono_usuario) || empty($cargo_usuario)) {
-    header("Location: ./secretario-usuario.php?error=CamposVacios&abrirModal=true&id_usuario={$id_usuario}");
+    header("Location: ./secretario-usuario.php?error=CamposVacios&abrirModal=true&id_usuario=$id_usuario");
     exit;
 }
 
 if (!preg_match("/^[0-9]{8}$/", $ci_usuario)) {
-    header("Location: ./secretario-usuario.php?error=CiInvalida&abrirModal=true&id_usuario={$id_usuario}");
+    header("Location: ./secretario-usuario.php?error=CiInvalida&abrirModal=true&id_usuario=$id_usuario");
     exit;
 }
 
 if (!preg_match("/^[0-9]{9}$/", $telefono_usuario)) {
-    header("Location: ./secretario-usuario.php?error=TelefonoInvalido&abrirModal=true&id_usuario={$id_usuario}");
+    header("Location: ./secretario-usuario.php?error=TelefonoInvalido&abrirModal=true&id_usuario=$id_usuario");
     exit;
 }
 
-if (!empty($contrasenia_usuario) && 
+if (!empty($contrasenia_usuario) &&
     !preg_match("/^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9]).{8,20}$/", $contrasenia_usuario)) {
-    header("Location: ./secretario-usuario.php?error=ContraseniaInvalida&abrirModal=true&id_usuario={$id_usuario}");
+    header("Location: ./secretario-usuario.php?error=ContraseniaInvalida&abrirModal=true&id_usuario=$id_usuario");
     exit;
 }
 
@@ -48,7 +58,7 @@ if (!empty($contrasenia_usuario) &&
 // -----------------------------------------------------------------------------
 $campoDuplicado = verificarDuplicados($conn, $ci_usuario, $gmail_usuario, $telefono_usuario, $id_usuario);
 if ($campoDuplicado !== null) {
-    header("Location: ./secretario-usuario.php?error=Duplicado&campo={$campoDuplicado}&abrirModal=true&id_usuario={$id_usuario}");
+    header("Location: ./secretario-usuario.php?error=Duplicado&campo={$campoDuplicado}&abrirModal=true&id_usuario=$id_usuario");
     exit;
 }
 
@@ -96,7 +106,7 @@ $stmt = $conn->prepare($sql_update);
 $stmt->bind_param("sssssssi", $ci_usuario, $nombre_usuario, $apellido_usuario, $gmail_usuario, $telefono_usuario, $cargo_usuario, $hashed_password, $id_usuario);
 
 if (!$stmt->execute()) {
-    header("Location: ./secretario-usuario.php?error=ErrorSQL&abrirModal=true&id_usuario={$id_usuario}");
+    header("Location: ./secretario-usuario.php?error=ErrorSQL&abrirModal=true&id_usuario=$id_usuario");
     exit;
 }
 $stmt->close();
