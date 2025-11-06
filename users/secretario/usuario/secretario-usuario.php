@@ -5,6 +5,10 @@ $sql = "SELECT * FROM usuario";
 $query = mysqli_query($conn, $sql);
 $message = "";
 
+session_start();
+$old = $_SESSION['old'] ?? [];
+unset($_SESSION['old']);
+
 // Consulta de todos los usuarios
 $sql = "SELECT * FROM usuario";
 $query = mysqli_query($conn, $sql);
@@ -246,58 +250,71 @@ while ($row = mysqli_fetch_array($query)) {
       <?php endforeach; ?>
 
       <!-- Modal creación -->
-      <div class="modal fade" id="modalUsuario" tabindex="-1">
-        <div class="modal-dialog">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title">Agregar Usuario</h5>
-              <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-            </div>
-            <form method="POST" action="./agregar-usuario.php">
-              <div class="modal-body">
-                <input type="hidden" id="accion" name="accion">
-                <div class="mb-3">
-                  <label>Cédula de identidad</label>
-                  <input type="number" name="ci_usuario" class="form-control" required>
-                </div>
-                <div class="mb-3">
-                  <label>Nombre</label>
-                  <input type="text" name="nombre_usuario" class="form-control" required>
-                </div>
-                <div class="mb-3">
-                  <label>Apellido</label>
-                  <input type="text" name="apellido_usuario" class="form-control" required>
-                </div>
-                <div class="mb-3">
-                  <label>Email</label>
-                  <input type="email" name="gmail_usuario" class="form-control" required>
-                </div>
-                <div class="mb-3">
-                  <label>Teléfono</label>
-                  <input type="number" name="telefono_usuario" class="form-control" required>
-                </div>
-                <div class="mb-3">
-                  <label>Cargo</label>
-                  <select name="cargo_usuario" class="form-select" required>
-                    <option value="">Seleccionar</option>
-                    <option value="Docente">Docente</option>
-                    <option value="Adscripto">Adscripto</option>
-                    <option value="Secretario">Secretario</option>
-                  </select>
-                </div>
-                <div class="mb-3">
-                  <label>Contraseña</label>
-                  <input type="password" name="contrasenia_usuario" class="form-control" required>
-                </div>
-              </div>
-              <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                <button type="submit" class="btn btn-primary">Guardar</button>
-              </div>
-            </form>
+      <div class="modal fade" id="modalUsuario" tabindex="-1" aria-labelledby="modalUsuarioLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modalUsuarioLabel">Agregar Usuario</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+      </div>
+
+      <form action="./agregar-usuario.php" method="POST">
+        <div class="modal-body">
+          <div class="mb-3">
+            <label class="form-label">Cédula de identidad</label>
+            <input type="text" name="ci_usuario" class="form-control" 
+                   value="<?= htmlspecialchars($old['ci_usuario'] ?? '') ?>">
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label">Nombre</label>
+            <input type="text" name="nombre_usuario" class="form-control"
+                   value="<?= htmlspecialchars($old['nombre_usuario'] ?? '') ?>">
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label">Apellido</label>
+            <input type="text" name="apellido_usuario" class="form-control"
+                   value="<?= htmlspecialchars($old['apellido_usuario'] ?? '') ?>">
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label">Email</label>
+            <input type="email" name="gmail_usuario" class="form-control"
+                   value="<?= htmlspecialchars($old['gmail_usuario'] ?? '') ?>">
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label">Teléfono</label>
+            <input type="text" name="telefono_usuario" class="form-control"
+                   value="<?= htmlspecialchars($old['telefono_usuario'] ?? '') ?>">
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label">Cargo</label>
+            <select name="cargo_usuario" class="form-select">
+              <option value="">Seleccionar</option>
+              <option value="Secretario" <?= (isset($old['cargo_usuario']) && $old['cargo_usuario'] === 'Secretario') ? 'selected' : '' ?>>Secretario</option>
+              <option value="Docente" <?= (isset($old['cargo_usuario']) && $old['cargo_usuario'] === 'Docente') ? 'selected' : '' ?>>Docente</option>
+              <option value="Adscripto" <?= (isset($old['cargo_usuario']) && $old['cargo_usuario'] === 'Adscripto') ? 'selected' : '' ?>>Adscripto</option>
+            </select>
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label">Contraseña</label>
+            <input type="password" name="contrasenia_usuario" class="form-control"
+                   value="<?= htmlspecialchars($old['contrasenia_usuario'] ?? '') ?>">
           </div>
         </div>
-      </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+          <button type="submit" class="btn btn-success">Guardar</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
     </main>
   </div>
 

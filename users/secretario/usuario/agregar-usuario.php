@@ -1,4 +1,5 @@
 <?php
+session_start();
 include('./../../../conexion.php');
 $conn = conectar_bd();
 
@@ -13,6 +14,9 @@ $telefono_usuario = trim($_POST['telefono_usuario'] ?? '');
 $cargo_usuario = trim($_POST['cargo_usuario'] ?? '');
 $contrasenia_usuario = trim($_POST['contrasenia_usuario'] ?? '');
 $contrasenia_hash = password_hash($contrasenia_usuario, PASSWORD_DEFAULT);
+
+// Guardar temporalmente los datos en sesión por si hay errores
+$_SESSION['old'] = $_POST;
 
 // -----------------------------------------------------------------------------
 // Validaciones principales
@@ -40,29 +44,24 @@ if ($stmt->execute()) {
         $conn->query("INSERT INTO adscripto (id_usuario) VALUES ($id_usuario)");
     }
 
+    // si exito -> eliminar los datos guardados temporalmente
+    unset($_SESSION['old']);
+
     // Redirección con mensaje de éxito
     header("Location: ./secretario-usuario.php?msg=InsercionExitosa");
     exit;
 } else {
-    echo "<script>
-            alert('Error al agregar el usuario.');
-            window.location.href = './secretario-usuario.php';
-          </script>";
+    header("Location: ./secretario-usuario.php?error=CamposVacios&abrirModal=true");
     exit;
 }
 
 // -----------------------------------------------------------------------------
 // FUNCIONES AUXILIARES
 // -----------------------------------------------------------------------------
-
-/**
- * Validaciones de datos y duplicados
- */
 function validaciones($conn, $ci_usuario, $nombre_usuario, $apellido_usuario,
                      $gmail_usuario, $telefono_usuario, $contrasenia_usuario,
                      $cargo_usuario) {
 
-    // 1️⃣ Campos vacíos
     if (empty($ci_usuario) || empty($nombre_usuario) || empty($apellido_usuario) ||
         empty($gmail_usuario) || empty($telefono_usuario) || empty($cargo_usuario) ||
         empty($contrasenia_usuario)) {
@@ -70,25 +69,21 @@ function validaciones($conn, $ci_usuario, $nombre_usuario, $apellido_usuario,
         exit;
     }
 
-    // 2️⃣ Validar CI
     if (!preg_match("/^[0-9]{8}$/", $ci_usuario)) {
         header("Location: ./secretario-usuario.php?error=CiInvalida&abrirModal=true");
         exit;
     }
 
-    // 3️⃣ Validar Teléfono
     if (!preg_match("/^[0-9]{9}$/", $telefono_usuario)) {
         header("Location: ./secretario-usuario.php?error=TelefonoInvalido&abrirModal=true");
         exit;
     }
 
-    // 4️⃣ Validar Contraseña
     if (!preg_match("/^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9]).{8,20}$/", $contrasenia_usuario)) {
         header("Location: ./secretario-usuario.php?error=ContraseniaInvalida&abrirModal=true");
         exit;
     }
 
-    // 5️⃣ Validar duplicados (CI, email o teléfono)
     $campoDuplicado = consultarDuplicados($conn, $ci_usuario, $gmail_usuario, $telefono_usuario);
     if ($campoDuplicado !== null) {
         header("Location: ./secretario-usuario.php?error=Duplicado&campo={$campoDuplicado}&abrirModal=true");
@@ -98,10 +93,6 @@ function validaciones($conn, $ci_usuario, $nombre_usuario, $apellido_usuario,
     return true;
 }
 
-/**
- * Consulta duplicados en base de datos
- * Retorna 'cedula' | 'email' | 'telefono' si existe duplicado, o null si no.
- */
 function consultarDuplicados($conn, $ci_usuario, $gmail_usuario, $telefono_usuario) {
     $sql = "SELECT ci_usuario, gmail_usuario, telefono_usuario
             FROM usuario
