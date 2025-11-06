@@ -257,3 +257,16 @@ function alertSwal(title, text) {
     alert(`${title}\n${text}`);
   }
 }
+
+// ------------------------------------------------------
+// Limpieza del URL solo después de alertas exitosas
+// ------------------------------------------------------
+const params = new URLSearchParams(window.location.search);
+const msg = params.get("msg");
+
+if (window.history.replaceState && msg) {
+  // Solo limpia si hay uno de esots mensajes incluidos en msg
+  if (["InsercionExitosa", "EdicionExitosa", "EliminacionExitosa"].includes(msg)) {
+    window.history.replaceState(null, null, window.location.pathname);
+  }
+}
