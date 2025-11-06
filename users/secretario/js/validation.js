@@ -1,6 +1,3 @@
-// ======================================================
-// VALIDATION.JS - SweetAlert + Validaciones + Confirmaciones
-// ======================================================
 document.addEventListener('DOMContentLoaded', () => {
 
   // ------------------------------------------------------
@@ -187,6 +184,16 @@ function validarFormulario(form, esCreacion = true) {
     return false;
   }
 
+  if (!/^[A-Za-zÁÉÍÓÚáéíóúÑñ\s]{3,30}$/.test(nombre)) {
+    alertSwal('Nombre inválido', 'El nombre debe contener solo letras y tener entre 3 y 30 caracteres');
+    return false;
+  }
+
+  if (!/^[A-Za-zÁÉÍÓÚáéíóúÑñ\s]{3,30}$/.test(apellido)) {
+    alertSwal('Apellido inválido', 'El apellido debe contener solo letras y tener entre 3 y 30 caracteres');
+    return false;
+  }
+
   if (!/^\d{9}$/.test(telefono)) {
     alertSwal('Teléfono inválido', 'El teléfono debe tener 9 dígitos');
     return false;
@@ -234,6 +241,16 @@ function validarFormularioEdicion(form) {
 
   if (!/^\d{8}$/.test(ci)) {
     alertSwal('Cédula inválida', 'La cédula debe tener 8 dígitos');
+    return false;
+  }
+
+  if (!/^[A-Za-zÁÉÍÓÚáéíóúÑñ\s]{3,30}$/.test(nombre)) {
+    alertSwal('Nombre inválido', 'El nombre debe contener solo letras y tener entre 3 y 30 caracteres');
+    return false;
+  }
+
+  if (!/^[A-Za-zÁÉÍÓÚáéíóúÑñ\s]{3,30}$/.test(apellido)) {
+    alertSwal('Apellido inválido', 'El apellido debe contener solo letras y tener entre 3 y 30 caracteres');
     return false;
   }
 

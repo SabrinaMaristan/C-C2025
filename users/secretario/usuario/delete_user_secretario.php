@@ -9,7 +9,7 @@ if (!$id_usuario) {
 }
 
 // -----------------------------------------------------------------------------
-// 1️⃣ Eliminar registros relacionados según el cargo
+//  Eliminar registros relacionados según el cargo
 // -----------------------------------------------------------------------------
 $cargoQuery = $conn->prepare("SELECT cargo_usuario FROM usuario WHERE id_usuario = ?");
 $cargoQuery->bind_param("i", $id_usuario);
@@ -33,7 +33,7 @@ if ($cargo) {
 }
 
 // -----------------------------------------------------------------------------
-// 2️⃣ Eliminar el usuario principal
+//  Eliminar el usuario principal
 // -----------------------------------------------------------------------------
 $sql = "DELETE FROM usuario WHERE id_usuario = ?";
 $stmt = mysqli_prepare($conn, $sql);
