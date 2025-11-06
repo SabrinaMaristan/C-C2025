@@ -7,7 +7,8 @@ $message = "";
 
 session_start();
 $old = $_SESSION['old'] ?? [];
-unset($_SESSION['old']);
+$old_edit = $_SESSION['old_edit'] ?? [];
+unset($_SESSION['old'], $_SESSION['old_edit']);
 
 // Consulta de todos los usuarios
 $sql = "SELECT * FROM usuario";
