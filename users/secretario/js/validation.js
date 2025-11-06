@@ -4,7 +4,7 @@
 document.addEventListener('DOMContentLoaded', () => {
 
   // ------------------------------------------------------
-  // 1️⃣ Mostrar alertas según parámetros GET (error o mensaje)
+  // Mostrar alertas según parámetros GET (error o mensaje)
   // ------------------------------------------------------
   const params = new URLSearchParams(window.location.search);
 
@@ -67,11 +67,18 @@ document.addEventListener('DOMContentLoaded', () => {
         icon: "success",
         title: exitos[msg],
         confirmButtonColor: "rgba(95, 102, 207, 1)",
-      });
-  }
+      }).then(() => {
+    // Recarga la página limpia después de cerrar el SweetAlert
+    if (window.history.replaceState) {
+      window.history.replaceState(null, null, window.location.pathname);
+    }
+    location.reload();
+  });
+}
+  
 
   // ------------------------------------------------------
-  // 2️⃣ Validaciones de formularios (crear y editar)
+  // Validaciones de formularios (crear y editar)
   // ------------------------------------------------------
 
   // ---- EDICIÓN ----
@@ -117,7 +124,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // ------------------------------------------------------
-  // 3️⃣ Confirmación antes de eliminar usuario
+  // Confirmación antes de eliminar usuario
   // ------------------------------------------------------
   document.querySelectorAll('a.eliminar').forEach(btn => {
     btn.addEventListener('click', (e) => {
@@ -144,7 +151,7 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 // ------------------------------------------------------
-// 4️⃣ Funciones auxiliares
+// Funciones auxiliares
 // ------------------------------------------------------
 function leer(form, name) {
   const el = form.querySelector(`[name="${name}"]`);
