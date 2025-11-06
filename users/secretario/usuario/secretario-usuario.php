@@ -215,11 +215,11 @@ while ($row = mysqli_fetch_array($query)) {
                 </div>
                 <div class="mb-3">
                   <label>Apellido</label>
-                  <input type="text" name="apellido_usuario" class="form-control" value="<?= htmlspecialchars($old_edit['apellido_usuario'] ?? $row['nombre_usuario'] ?? '') ?>">
+                  <input type="text" name="apellido_usuario" class="form-control" value="<?= htmlspecialchars($old_edit['apellido_usuario'] ?? $row['apellido_usuario'] ?? '') ?>">
                 </div>
                 <div class="mb-3">
                   <label>Email</label>
-                  <input type="email" name="gmail_usuario" class="form-control" value="<?= htmlspecialchars($old_edit['telefono_usuario'] ?? $row['telefono_usuario'] ?? '') ?>">
+                  <input type="email" name="gmail_usuario" class="form-control" value="<?= htmlspecialchars($old_edit['gmail_usuario'] ?? $row['gmail_usuario'] ?? '') ?>">
                 </div>
                 <div class="mb-3">
                   <label>Teléfono</label>
