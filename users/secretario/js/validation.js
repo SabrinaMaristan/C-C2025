@@ -276,6 +276,6 @@ if (window.history.replaceState && msg) {
   if (["InsercionExitosa", "EdicionExitosa", "EliminacionExitosa"].includes(msg)) {
     setTimeout(() => {
       window.history.replaceState(null, null, window.location.pathname);
-    }, 500); // le da tiempo a SweetAlert a mostrarse
+    }, 3000); // le da tiempo a SweetAlert a mostrarse
   }
 }
