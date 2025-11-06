@@ -274,6 +274,8 @@ const msg = params.get("msg");
 if (window.history.replaceState && msg) {
   // Solo limpia si hay uno de esots mensajes incluidos en msg
   if (["InsercionExitosa", "EdicionExitosa", "EliminacionExitosa"].includes(msg)) {
-    window.history.replaceState(null, null, window.location.pathname);
+    setTimeout(() => {
+      window.history.replaceState(null, null, window.location.pathname);
+    }, 500); // le da tiempo a SweetAlert a mostrarse
   }
 }
