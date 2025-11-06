@@ -223,7 +223,7 @@ while ($row = mysqli_fetch_array($query)) {
                 </div>
                 <div class="mb-3">
                   <label>Teléfono</label>
-                  <input type="number" name="telefono_usuario" class="form-control" value="<?= $row['telefono_usuario'] ?>">
+                  <input type="number" name="telefono_usuario" class="form-control" value="<?= htmlspecialchars($old_edit['telefono_usuario'] ?? $row['telefono_usuario'] ?? '') ?>">
                 </div>
                 <div class="mb-3">
                   <label>Cargo</label>
