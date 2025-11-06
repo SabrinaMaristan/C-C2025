@@ -46,10 +46,18 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // Reabrir el modal automáticamente si corresponde
-  if (params.get("abrirModal") === "true") {
-    const modalEl = document.getElementById("modalUsuario");
-    if (modalEl) {
-      const modal = new bootstrap.Modal(modalEl);
+   if (params.get("abrirModal") === "true") {
+    const modalCrear = document.getElementById("modalUsuario");
+    const modalEditar = document.getElementById("modalEditarUsuario");
+
+    // Si hay parámetro id_usuario en la URL => modal de edición
+    if (params.has("id_usuario") && modalEditar) {
+      const modal = new bootstrap.Modal(modalEditar);
+      modal.show();
+    } 
+    // Si no, abrir modal de creación
+    else if (modalCrear) {
+      const modal = new bootstrap.Modal(modalCrear);
       modal.show();
     }
   }
