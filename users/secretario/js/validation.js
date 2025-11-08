@@ -12,28 +12,28 @@ document.addEventListener('DOMContentLoaded', () => {
    // objeto errores
     const errores = {
       CamposVacios: {
-        title: "Campos vacíos",
-        text: "Por favor complete todos los campos.",
+        title: i18next.t('emptyFields') ,
+        text: i18next.t('pleaseFillIn') ,
       },
       CiInvalida: {
-        title: "Cédula inválida",
-        text: "Debe tener 8 dígitos.",
+        title: i18next.t('invalidID'),
+        text: i18next.t('IDMustContain8Digits'),
       },
       CedulaInvalidaDigito: {
-        title: "Cédula inválida",
-        text: "El dígito verificador de la cédula no es válido.",
+        title: i18next.t('invalidID'),
+        text: i18next.t('verificationDigit'),
       },
       TelefonoInvalido: {
-        title: "Teléfono inválido",
-        text: "Debe tener 9 dígitos.",
+        title: i18next.t('invalidPhoneNumber'),
+        text: i18next.t('numberConatins9Digits'),
       },
       ContraseniaInvalida: {
-        title: "Contraseña inválida",
-        text: "Debe tener entre 8 a 20 caracteres, incluir mayúsculas, minúsculas y números.",
+        title: i18next.t('invalidpassword'),
+        text: i18next.t('passwordCharacters'),
       },
       Duplicado: {
-        title: "Usuario duplicado",
-        text: `Ya existe un usuario con ese ${campo} registrado.`,
+        title: i18next.t('duplicateUser'),
+       text: `Ya existe un usuario con ese ${campo} registrado.`,
       },
     };
 
@@ -70,9 +70,9 @@ document.addEventListener('DOMContentLoaded', () => {
   if (window.Swal && params.has("msg")) {
     const msg = params.get("msg");
     const exitos = {
-      InsercionExitosa: "Creación de Usuario Exitosa",
-      EdicionExitosa: "¡Edición Exitosa!",
-      EliminacionExitosa: "¡Eliminación Exitosa!",
+      InsercionExitosa: i18next.t('userCreatedSuccessfully') ,
+      EdicionExitosa: i18next.t('editSuccessfully') ,
+      EliminacionExitosa:  i18next.t('deletionSuccessfully') ,
     };
     if (exitos[msg])
       Swal.fire({
@@ -103,14 +103,14 @@ document.addEventListener('DOMContentLoaded', () => {
     if (!ok) return;
 
     Swal.fire({
-      title: '¿Estás seguro?',
-      text: '¿Deseas guardar los cambios?',
+      title:  i18next.t('areYouSure') ,
+      text: i18next.t('wantSaveChanges') ,
       icon: 'question',
       showCancelButton: true,
       confirmButtonColor: '#3085d6',
       cancelButtonColor: '#d33',
-      confirmButtonText: 'Sí, guardar',
-      cancelButtonText: 'Cancelar'
+      confirmButtonText: i18next.t('yesSure') ,
+      cancelButtonText: i18next.t('Cancel') 
     }).then((r) => { if (r.isConfirmed) form.submit(); });
   });
 
@@ -123,14 +123,14 @@ document.addEventListener('DOMContentLoaded', () => {
       if (!ok) return;
 
       Swal.fire({
-        title: '¿Crear usuario?',
-        text: 'Se agregará un nuevo usuario',
+        title: i18next.t('createUser'),
+        text: i18next.t('addNewUser'),
         icon: 'question',
         showCancelButton: true,
         confirmButtonColor: '#3085d6',
         cancelButtonColor: '#d33',
-        confirmButtonText: 'Sí, crear',
-        cancelButtonText: 'Cancelar'
+        confirmButtonText: i18next.t('yesCreate') ,
+        cancelButtonText: i18next.t('Cancel') 
       }).then((r) => { if (r.isConfirmed) formCreacion.submit(); });
     });
   }
@@ -144,14 +144,14 @@ document.addEventListener('DOMContentLoaded', () => {
       const url = btn.getAttribute('href');
 
       Swal.fire({
-        title: '¿Eliminar usuario?',
-        text: 'Esta acción no se puede deshacer.',
+        title: i18next.t('deleteUser'),
+        text:  i18next.t('actionNotBeUndone') ,
         icon: 'warning',
         showCancelButton: true,
         confirmButtonColor: '#d33',
         cancelButtonColor: '#3085d6',
-        confirmButtonText: 'Sí, eliminar',
-        cancelButtonText: 'Cancelar'
+        confirmButtonText:  i18next.t('yesDelete') ,
+        cancelButtonText:  i18next.t('cancel') 
       }).then((r) => {
         if (r.isConfirmed) {
           window.location.href = url;
@@ -180,42 +180,42 @@ function validarFormulario(form, esCreacion = true) {
   const contrasenia = leer(form, 'contrasenia_usuario');
 
   if (!ci || !nombre || !apellido || !gmail || !telefono || !cargo) {
-    alertSwal('Campos incompletos', 'Todos los campos son obligatorios');
+    alertSwal(i18next.t('emptyFields'),i18next.t('pleaseFillIn'));
     return false;
   }
 
   if (!/^\d{8}$/.test(ci)) {
-    alertSwal('Cédula inválida', 'La cédula debe tener 8 dígitos');
+    alertSwal(i18next.t('invalidID'), i18next.t('IDMustContain8Digits'));
     return false;
   }
 
   if (!/^[A-Za-zÁÉÍÓÚáéíóúÑñ\s]{3,30}$/.test(nombre)) {
-    alertSwal('Nombre inválido', 'El nombre debe contener solo letras y tener entre 3 y 30 caracteres');
+    alertSwal(i18next.t('invalidName'), i18next.t('containName'));
     return false;
   }
 
   if (!/^[A-Za-zÁÉÍÓÚáéíóúÑñ\s]{3,30}$/.test(apellido)) {
-    alertSwal('Apellido inválido', 'El apellido debe contener solo letras y tener entre 3 y 30 caracteres');
+    alertSwal(i18next.t('invalidLastName'), i18next.t('lastNameContain'));
     return false;
   }
 
   if (!/^\d{9}$/.test(telefono)) {
-    alertSwal('Teléfono inválido', 'El teléfono debe tener 9 dígitos');
+    alertSwal(i18next.t('invalidPhoneNumber'), i18next.t('numberContains9Digits'));
     return false;
   }
 
   if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(gmail)) {
-    alertSwal('Email inválido', 'Por favor ingrese un email válido');
+    alertSwal(i18next.t('invalidEmail'), i18next.t('pleaseValidEmail'));
     return false;
   }
 
   if (!contrasenia) {
-    alertSwal('Contraseña requerida', 'Debe ingresar una contraseña');
+    alertSwal(i18next.t('passwordRequired'), i18next.t('enterPassword'));
     return false;
   }
 
   if (contrasenia.length < 8 || contrasenia.length > 20) {
-    alertSwal('Contraseña inválida', 'Debe tener entre 8 y 20 caracteres');
+    alertSwal(i18next.t('invalidpassword'), i18next.t('requiere2'));
     return false;
   }
 
@@ -223,7 +223,7 @@ function validarFormulario(form, esCreacion = true) {
   const tieneMinus = /[a-z]/.test(contrasenia);
   const tieneNumero = /[0-9]/.test(contrasenia);
   if (!tieneMayus || !tieneMinus || !tieneNumero) {
-    alertSwal('Contraseña inválida', 'Debe contener al menos una MAYÚSCULA, una minúscula y un número');
+    alertSwal(i18next.t('invalidpassword'),i18next.t('requiere1'));
     return false;
   }
 
@@ -240,38 +240,38 @@ function validarFormularioEdicion(form) {
   const contrasenia = leer(form, 'contrasenia_usuario');
 
   if (!ci || !nombre || !apellido || !gmail || !telefono || !cargo) {
-    alertSwal('Campos incompletos', 'Todos los campos son obligatorios');
+    alertSwal(i18next.t('emptyFields'), i18next.t('allFieldsRequired'));
     return false;
   }
 
   if (!/^\d{8}$/.test(ci)) {
-    alertSwal('Cédula inválida', 'La cédula debe tener 8 dígitos');
+    alertSwal(i18next.t('invalidID'), i18next.t('IDMustContain8Digits'));
     return false;
   }
 
   if (!/^[A-Za-zÁÉÍÓÚáéíóúÑñ\s]{3,30}$/.test(nombre)) {
-    alertSwal('Nombre inválido', 'El nombre debe contener solo letras y tener entre 3 y 30 caracteres');
+    alertSwal(i18next.t('invalidName'),  i18next.t('containName'));
     return false;
   }
 
   if (!/^[A-Za-zÁÉÍÓÚáéíóúÑñ\s]{3,30}$/.test(apellido)) {
-    alertSwal('Apellido inválido', 'El apellido debe contener solo letras y tener entre 3 y 30 caracteres');
+    alertSwal(i18next.t('invalidLastName'), i18next.t('lastNameContain'));
     return false;
   }
 
   if (!/^\d{9}$/.test(telefono)) {
-    alertSwal('Teléfono inválido', 'El teléfono debe tener 9 dígitos');
+    alertSwal(i18next.t('invalidPhoneNumber'), i18next.t('numberContains9Digits'));
     return false;
   }
 
   if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(gmail)) {
-    alertSwal('Email inválido', 'Por favor ingrese un email válido');
+    alertSwal(i18next.t('invalidEmail'), i18next.t('plaseValidEmail'));
     return false;
   }
 
   if (contrasenia) {
     if (contrasenia.length < 8 || contrasenia.length > 20) {
-      alertSwal('Contraseña inválida', 'Debe tener entre 8 y 20 caracteres');
+      alertSwal(i18next.t('invalidpassword'), i18next.t('require2'));
       return false;
     }
 
@@ -280,7 +280,7 @@ function validarFormularioEdicion(form) {
     const tieneNumero = /[0-9]/.test(contrasenia);
 
     if (!tieneMayus || !tieneMinus || !tieneNumero) {
-      alertSwal('Contraseña inválida', 'Debe contener al menos una MAYÚSCULA, una minúscula y un número');
+      alertSwal(i18next.t('invalidpassword'),  i18next.t('require1'));
       return false;
     }
   }

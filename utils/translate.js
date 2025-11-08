@@ -1,4 +1,5 @@
 // Inicialización de i18next con recursos embebidos
+//Objeto de javascript, no es un JSON
 i18next.init({
   lng: localStorage.getItem('language') || "es", // Recuperar el idioma desde localStorage, si no existe, usar "es" por defecto
   debug: true,
@@ -126,7 +127,7 @@ i18next.init({
         classrooms:"Salones",
         computerLabs:"Aulas",
         scienceLabs:"Laboratorios",
-        viewReservations:"Consulta tus reservas realizadas",
+        viewReservations:"Visualiza las reservas realizadas.",
         //
         courseSubjectManagement:"Gestión de cursos y asignaturas",
         pCourseSubjectManagement:"Gestione los cursos, asignaturas, docentes y espacios del centro educativo de forma sencilla y organizada.",
@@ -180,6 +181,60 @@ i18next.init({
         ensureWrittenCorrectly:"Asegúrese de que quede bien escrito.",
         //
         assignmentEditing:"Edicion de asignación",
+        //
+        areYouSure:"Estas seguro?",
+        yesSave:"Si, guardar",
+        enterGroupName:"Ingrese el nombre del grupo",
+        groupNameMustBe:"El nombre del grupo debe ser menor a 6 caracteres",
+        enterTheGroup:"Ingrese el nombre del grupo",
+        orientationsCorrespond:"La orientación debe coincidir con una de las opciones del sistema.",
+        seletAShift:"Seleccionar un turno.",
+        invalidNumberOfStudent:"Cantidad de alumnos inválida. Debe ser entre 1 y 50",
+        requestNoProcessed:"No se pudo procesar la solicitud",
+        yesDelete:"Si, eliminar",
+        deleteGroup:"Eliminar grupo?",
+        actionNotBeUndone:"Esta acción no se puede deshacer",
+        //
+        leaveBlank:"Dejar en blanco si no se quiere cambiar la contraseña.",
+        shift:"Turno",
+        numberOfStudents:"Número de estudiantes",
+        emptyFields:"Campos vacíos",
+        //
+        pleaseFillIn:"Por favor complete todos los campos.",
+        IDMustContain8Digits:"Debe tener 8 dígitos.",
+        invalidPhoneNumber:"Teléfono inválido",
+        numberContains9Digits:"Debe tener 9 dígitos.",
+        invalidID:"Cédula inválida",
+        //
+        indicateStartTime:"Ingrese la hora de inicio de las clases",
+        enterClassEndTime:"Ingrese la hora de finalización de las clases.",
+        timeEarlier:"La hora de inicio debe ser menor que la hora de finalización.",
+        deleteSchedule:"¿Desea eliminar este horario?",
+        verificationDigit:"El dígito verificador de la cédula no es válido.",
+        duplicateUser:"Usuario duplicado",
+        userAlreadyRegistered:"Ya existe un usuario con ese",
+        yesCreate:"Si, crear.",
+        wantSaveChanges:"¿Deseas guardar los cambios?",
+        yesDelete:"Si, eliminar",
+        createUser:"¿Crear usuario?",
+        addNewUser:"Se agregará un nuevo usuario",
+        deleteUser:"¿Eliminar usuario?",
+        //
+        invalidName:"Nombre invalido",
+        containName:"El nombre debe contener solo letras y tener entre 3 y 30 caracteres",
+        lastNameContain:"El apellido debe contener solo letras y tener entre 3 y 30 caracteres",
+        invalidLastName:"Apellido inválido",
+        invalidEmail:"Email inválido",
+        pleaseValidEmail:"Por favor ingrese un email válido",
+        passwordRequired:"Contraseña requerida",
+        enterPassword:"Debe ingresar una contraseña",
+        require1:"Debe contener al menos una MAYÚSCULA, una minúscula y un número",
+        require2:"Debe tener entre 8 y 20 caracteres",
+        
+
+
+
+
       }
     },
     en: {
@@ -300,7 +355,7 @@ i18next.init({
         computerLabs:"Computer Labs",
         scienceLabs:"Science Labs",
         //
-        viewReservations:"View your reservations made",
+        viewReservations:"View the reservations made.",
         pCourseSubjectManagement:"Easily manage the courses, subjects, teachers, and facilities of your educational institution in an organized way.",
         courseSubjectManagement:"Course and Subject Management",
        addSubject:"Add Subjects",
@@ -351,6 +406,75 @@ i18next.init({
         ensureWrittenCorrectly:"Ensure it is written correctly.",
         editSubject: "Edit subject",
         assignmentEditing:"Assignment Editing",
+        //
+        areYouSure:"Are you sure?",
+        yesSave:"Yes, save.",
+        enterGroupName:"Enter the group name.",
+        groupNameMustBe:"The group name must be less than 6 characters long.",
+        enterTheGroup:"Enter the group name.",
+        orientationsCorrespond:"The orientation must correspond to one of the options available in the system.",
+        seletAShift:"Select a shift.",
+        invalidNumber:"Invalid number of students. It must be between 1 and 50.",
+        requestNoProcessed:"The request could not be processed.",
+        deleteGroup:"Delete group?",
+        yesDelete:"Yes, delete",
+        actionNotBeUndone:"This action cannot be undone.",
+        //
+        leaveBlank:"Dejar en blanco si no se quiere cambiar la contraseña.",
+        userCreatedSuccessfully:"Creación de Usuario Exitosa",
+        successfulInsertion:"Successful Insertion!",
+        deletionSuccesfull:"Deletion Successful!",
+        editSuccessfull:"Edit Successful!",
+        userExists:"The user already exists.",
+        tryAgain:"Please try again.",
+        invalidpassword:"Invalid password",
+        passwordCharacters:"It must be between 8 and 20 characters long and include at least one uppercase letter, one lowercase letter, and one number.",
+        invalidNumberOfStudent:"Invalid phone number.",
+        digitsNumber:"The phone number must contain 9 digits.",
+        invalidID:"Invalid ID number.",
+        digits:"It must contain 8 digits.",
+        notBeEmpty:"Fields cannot be empty.",
+        shift:"Shift",
+        numberOfStudents:"Number of students",
+        //
+        emptyFields:"Empty fields",
+        pleaseFillIn:"Please fill in all the fields.",
+        IDMustContain8Digits:"It must contain 8 digits.",
+        invalidPhoneNumber:"Invalid Phone Number",
+        numberContains9Digits:"It must contain 9 digits",
+        //
+        indicateStartTime:"Please indicate the class start time.",
+        enterClassEndTime:"Please enter the class end time.",
+        timeEarlier:"The start time must be earlier than the end time.",
+        deleteSchedule:"Do you want to delete this schedule?",
+        verificationDigit:"The verification digit of the ID number is invalid.",
+        duplicateUser:"Duplicate user.",
+        userAlreadyRegistered:"A user with that ${campo} is already registered.",
+        yesCreate:"Yes, create",
+        wantSaveChanges:"Do you want to save the changes?",
+        yesDelete:"Yes, delete",
+        createUser:"Create user?",
+        addNewUser:"This will add a new user.",
+        deleteUser:"Delete user?",
+        //
+        invalidName:"Invalid name",
+        containName:"The name must contain only letters and be between 3 and 30 characters long.",
+        lastNameContain:"The last name must contain only letters and be between 3 and 30 characters long.",
+        invalidLastName:"Invalid last name",
+        invalidEmail:"Invalid email",
+        pleaseValidEmail:"Please enter a valid email.",
+        passwordRequired:"Password required",
+        enterPassword:"You must enter a password.",
+        require1:"At least one uppercase letter, one lowercase letter, and one digit is required.",
+        require2:"It must be between 8 and 20 characters long.",
+      
+
+
+
+
+
+
+
      }
     }
   }

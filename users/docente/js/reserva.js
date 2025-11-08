@@ -93,7 +93,7 @@ async function validarDisponibilidadClases() {
       return;
     }
 
-    // ✅ habilitar cantidad_horas
+    // habilitar cantidad_horas
     inputHoras.disabled = false;
     msg.textContent = "";
   } catch (err) {
@@ -196,14 +196,14 @@ async function enviarReserva(ev) {
   const observacion = document.querySelector("#observacion")?.value.trim() ?? "";
   const ids_horario = [...document.querySelectorAll(".selHora")].map(s => s.value).filter(Boolean);
 
-  // 🔹 Validaciones
+  //  Validaciones
   if (!id_grupo) return Swal.fire("Faltan datos", "Debe seleccionar un grupo.", "warning");
   if (!fecha_reserva) return Swal.fire("Faltan datos", "Debe seleccionar una fecha.", "warning");
   if (!cantidad_horas || cantidad_horas < 1) return Swal.fire("Faltan datos", "Indique cuántas horas reservar.", "warning");
   if (ids_horario.length !== cantidad_horas) return Swal.fire("Validación", "Debe seleccionar exactamente las horas indicadas.", "info");
   if (!id_espacio) return Swal.fire("Faltan datos", "Seleccione un espacio.", "warning");
 
-  // 🚫 Validar duplicados
+  //validar duplicados
   const duplicados = ids_horario.filter((v, i, arr) => arr.indexOf(v) !== i);
   if (duplicados.length > 0) {
     document.querySelectorAll(".selHora").forEach(sel => {
