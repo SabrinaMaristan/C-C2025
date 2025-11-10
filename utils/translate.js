@@ -118,6 +118,7 @@ i18next.init({
         position:"Cargo",
         addUser:"Agregar usuario",
         editUser:"Editar usuario",
+        email:"Gmail",
         //
         close:"Cerrar",
         //
@@ -346,6 +347,7 @@ i18next.init({
         position:"Position",
         addUser:"Add user",
         editUser:"Edit user",
+        email:"Email",
         //
         close:"Close",
         courseManagement:"Course Management",

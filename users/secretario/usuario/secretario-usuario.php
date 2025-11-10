@@ -156,7 +156,7 @@ while ($row = mysqli_fetch_array($query)) {
         <table class="tabla-secretario">
           <thead>
             <tr>
-              <th data-i18n="name">Nombre</th><th data-i18n="lastName">Apellido</th><th data-i18n="email">Email</th><th data-i18n="phone">Teléfono</th>
+              <th data-i18n="name">Nombre</th><th data-i18n="lastName">Apellido</th><th data-i18n="email">Gmail</th><th data-i18n="phone">Teléfono</th>
               <th data-i18n="idCard2">Cédula</th><th data-i18n="position">Cargo</th><th></th><th></th>
             </tr>
           </thead>
