@@ -10,6 +10,6 @@ $path = dirname($_SERVER['PHP_SELF']); // /CoffeeAndCode/C-C2025/users/docente/r
 $basePath = '/CoffeeAndCode/C-C2025/';
 
 // Redirigir correctamente
-header("Location: http://$host$basePath" . "index.php");
+header("Location: https://$host$basePath" . "index.php");
 exit();
 ?>
