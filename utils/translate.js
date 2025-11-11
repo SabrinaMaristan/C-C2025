@@ -231,7 +231,18 @@ i18next.init({
         enterPassword:"Debe ingresar una contraseña",
         require1:"Debe contener al menos una MAYÚSCULA, una minúscula y un número",
         require2:"Debe tener entre 8 y 20 caracteres",
-        
+        //
+        addFacility:"Agregar espacio.",
+        nameFacility:"Nombre del espacio.",
+        editFacility:"Editar espacio.",
+        edit:"Editar",
+        attributesFacility:"Atributos del espacio",
+        otherSpecify:"Otro (especificar).",
+        nameAttribute:"Nombre del atributo",
+        quantity:"Cantidad",
+        //
+        scheduleNotBeDelete:"No se puede eliminar el horario.",
+
 
 
 
@@ -422,7 +433,7 @@ i18next.init({
         yesDelete:"Yes, delete",
         actionNotBeUndone:"This action cannot be undone.",
         //
-        leaveBlank:"Dejar en blanco si no se quiere cambiar la contraseña.",
+        leaveBlank:"Leave blank if you do not wish to change the password.",
         userCreatedSuccessfully:"Creación de Usuario Exitosa",
         successfulInsertion:"Successful Insertion!",
         deletionSuccesfull:"Deletion Successful!",
@@ -469,6 +480,17 @@ i18next.init({
         enterPassword:"You must enter a password.",
         require1:"At least one uppercase letter, one lowercase letter, and one digit is required.",
         require2:"It must be between 8 and 20 characters long.",
+        addFacility:"Add facility.",
+        nameFacility:"Name of the facility.",
+        editFacility:"Edit facility.",
+        edit:"Edit",
+        attributesFacility:"Attributes of the facility",
+        otherSpecify:"Other (please specify)",
+        nameAttribute:"Name of the attribute",
+        quantity:"Quantity",
+        //
+        scheduleNotBeDelete:"The schedule cannot be deleted.",
+        
       
 
 

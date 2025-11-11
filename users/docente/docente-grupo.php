@@ -120,23 +120,44 @@ $grupos = $stmt2->get_result();
       <div>
         <h2 id="tituloGruposCargo" data-i18n="assignedGroups">Grupos a Cargo</h2>
       </div>
+      <br>       
+      <p>Selecciona un grupo para ver sus horarios.</p>
+
       <div class="caja-grupos-cargo">
         <div class="acordion">
           <?php if ($grupos->num_rows > 0): ?>
             <?php while ($g = $grupos->fetch_assoc()): ?>
-              <div class="mb-2">
-                <button class="boton-opciones docente">
-                  <?= htmlspecialchars($g['nombre_grupo']) ?> 
-                  <span class="text-muted small">(
-                    <?= htmlspecialchars($g['orientacion_grupo']) ?> - 
-                    <?= htmlspecialchars($g['turno_grupo']) ?>)
-                  </span>
-                </button>
-                <div class="dia"></div>
-              </div>
-            <?php endwhile; ?>
-          <?php else: ?>
-            <p class="text-muted">No tenés grupos asignados actualmente.</p>
+  <div class="dia">
+    <button class="boton-opciones docente" data-id="<?= $g['id_grupo'] ?>">
+      <?= htmlspecialchars($g['nombre_grupo']) ?>
+      <span class="capacidad-modal">(<?= htmlspecialchars($g['turno_grupo']) ?>)</span>
+    </button>
+
+    <!-- Contenedor oculto por defecto -->
+    <div class="contenido-grupo grupos-docente-responsive">
+      <table class="tabla-docente">
+        <thead>
+          <tr>
+            <th>Día</th>
+            <th>Asignatura</th>
+            <th>Hora Inicio</th>
+            <th>Hora Fin</th>
+            <th>Espacio</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+
+      <!-- Tabla responsive para móviles -->
+      <table class="tabla-docente-responsive">
+        <tbody></tbody>
+      </table>
+    </div>
+  </div>
+<?php endwhile; ?>
+
+   <?php else: ?>
+            <p class="text-muted">No tienes grupos asignados actualmente.</p>
           <?php endif; ?>
         </div>
       </div>
@@ -151,5 +172,6 @@ $grupos = $stmt2->get_result();
  <script src="https://unpkg.com/i18next@21.6.16/dist/umd/i18next.min.js"></script>
   <script src="./../../utils/translate.js"></script>
 
+<script src="./js/grupo.js"></script>
 </body>
 </html>

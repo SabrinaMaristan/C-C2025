@@ -8,6 +8,7 @@ $id_grupo = $_GET['id_grupo'] ?? null;
 // Obtener datos del grupo seleccionado
 $grupoInfo = mysqli_query($con, "SELECT nombre_grupo FROM grupo WHERE id_grupo = $id_grupo");
 $grupo = mysqli_fetch_assoc($grupoInfo);
+//mysqli_fetch_assoc - guarda dentro de un array asociativo
 
 // Obtener horarios disponibles
 $horarios = mysqli_query($con, "
@@ -27,9 +28,15 @@ $gada = mysqli_query($con, "
   JOIN docente d ON d.id_docente = gada.id_docente
   JOIN usuario u ON u.id_usuario = d.id_usuario
   WHERE gada.id_grupo = $id_grupo
-  ORDER BY a.nombre_asignatura
 ");
+// GADA 
+// G -> grupo
+// A -> asignatura 
+// D -> docente 
+// A -> aula = TABLA ESPACIO
 
+
+// AS renombra 
 // a.nombre_asignatura = asignatura.nomnbre_asignatura
 //  JOIN usuario u ON u.id_usuario = d.id_usuario -> une las tablas docente y usuario para obtener el nombre completo del docente
 
@@ -61,13 +68,19 @@ $horarios_asignados = mysqli_query($con, "
   ORDER BY FIELD(ha.dia, 'Lunes','Martes','Miércoles','Jueves','Viernes'), hc.hora_inicio
 ");
 
+// LEFT JOIN -> trae todos los horarios asignados (de la tabla gada), y si alguno de ellos tiene un espacio asignado,
+// muestra el nombre del espacio; si no, lo deja en blanco (NULL).
+
 // Obtener ENUM de días
 $enum_dias = [];
 $enum_query = mysqli_query($con, "SHOW COLUMNS FROM horario_asignado LIKE 'dia'");
 if ($enum_query) {
   $row = mysqli_fetch_assoc($enum_query);
-  preg_match("/^enum\((.*)\)$/", $row['Type'], $matches);
-  $enum_dias = array_map(fn($v) => trim($v, "'"), explode(',', $matches[1]));
+  preg_match("/^enum\((.*)\)$/", $row['Type'], $matches); //extraer lo que hay dentro de los paréntesis del ENUM.
+  // del enum('Lunes','Martes'...) extrae y guarda en $matches 'Lunes','Martes',...
+  $enum_dias = array_map(fn($v) => trim($v, "'"), explode(',', $matches[1])); 
+  // explode(',', $matches[1]) -> separa la cadena en un array, dividiéndola por las comas: ["'Lunes'", "'Martes'", ...]
+
 }
 ?>
 <!DOCTYPE html>
@@ -147,7 +160,7 @@ if ($enum_query) {
           <?php
             // Agrupar los horarios por día
             $horariosPorDia = [];
-            mysqli_data_seek($horarios_asignados, 0);
+            mysqli_data_seek($horarios_asignados, 0); // vuelve al inicio del resultado (indice 0)
             while ($h = mysqli_fetch_assoc($horarios_asignados)) {
               $horariosPorDia[$h['dia']][] = $h;
             }

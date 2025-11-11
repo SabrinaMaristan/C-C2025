@@ -115,17 +115,10 @@ $con->close();
       </div>
     </div>
 
-    <!-- Listado -->
-<style>
-  .cursor-pointer {
-  cursor: pointer;
-}
-
-</style>
     <?php while($esp = $espacios->fetch_assoc()): ?>
     <div class="col-6 mb-4">
       
-          <!-- Cuerpo clickeable -->
+        
     <div class="espacio-card cursor-pointer" data-id="<?= (int)$esp['id_espacio'] ?>">
         
       <div class="espacio-cuerpo"> </div>
@@ -155,7 +148,7 @@ $con->close();
     <div class="modal-content">
 
       <div class="modal-header">
-        <h5 id="modalTitulo" class="modal-title">Agregar espacio</h5>
+        <h5 id="modalTitulo" class="modal-title" data-i18n="addFacility">Agregar espacio</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
       </div>
 
@@ -167,7 +160,7 @@ $con->close();
           <input type="hidden" id="tipo_espacio" name="tipo_espacio" value="<?= htmlspecialchars($tipoDetectado) ?>">
 
           <div class="mb-3">
-            <label for="nombre_espacio" class="form-label">Nombre del espacio</label>
+            <label for="nombre_espacio" class="form-label" data-i18n="nameFacility">Nombre del espacio</label>
             <input type="text" id="nombre_espacio" name="nombre_espacio" class="form-control" required>
           </div>
 
@@ -179,14 +172,14 @@ $con->close();
          
 
           <div class="mb-3">
-            <label for="historial_espacio" class="form-label">Historial / Observaciones</label>
+            <label for="historial_espacio" class="form-label" data-i18n="historyNotes">Historial / Observaciones</label>
             <textarea id="historial_espacio" name="historial_espacio" class="form-control" rows="3"></textarea>
           </div>
         </form>
 
         <!-- PASO 2 -->
         <form id="formPaso2" class="d-none">
-          <h6 class="text-center mb-3">Atributos del espacio</h6>
+          <h6 class="text-center mb-3" data-i18n="attributesFacility">Atributos del espacio</h6>
           <input type="hidden" id="id_espacio_attr" name="id_espacio">
 
           <?php foreach (['Mesas','Sillas','Proyector','Televisor','Aire_Acondicionado','Computadora_de_escritorio','Enchufes','Ventilador'] as $attr): ?>
@@ -199,11 +192,11 @@ $con->close();
 
           <!-- Campo "Otro" -->
           <div class="row align-items-center mb-2">
-            <div class="col-4 text-end">Otro (especificar)</div>
+            <div class="col-4 text-end" data-i18n="otherSpecify">Otro (especificar)</div>
             <div class="col-4"><input type="checkbox" class="form-check-input toggleCantidad" data-target="otro_personalizado"></div>
             <div class="col-4">
-              <input type="text" name="otro_descripcion" id="otro_descripcion" class="form-control form-control-sm mb-1" placeholder="Nombre del atributo" disabled>
-              <input type="number" name="otro_cantidad" id="otro_personalizado" class="form-control form-control-sm bg-light border-0" placeholder="Cantidad" disabled>
+              <input type="text" name="otro_descripcion" id="otro_descripcion" class="form-control form-control-sm mb-1" data-i18n-placeholder="nameAttribute" disabled>
+              <input type="number" name="otro_cantidad" id="otro_personalizado" class="form-control form-control-sm bg-light border-0" data-i18n-placeholder="quantity" disabled>
             </div>
           </div>
         </form>
@@ -211,9 +204,9 @@ $con->close();
       </div>
 
       <div class="modal-footer">
-        <button class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-        <button class="btn btn-primary" id="btnSiguiente">Siguiente</button>
-        <button class="btn btn-success d-none" id="btnGuardarAtributos">Guardar</button>
+        <button class="btn btn-secondary" data-bs-dismiss="modal" data-i18n="cancel">Cancelar</button>
+        <button class="btn btn-primary" id="btnSiguiente" data-i18n="next">Siguiente</button>
+        <button class="btn btn-success d-none" id="btnGuardarAtributos" data-i18n="save">Guardar</button>
       </div>
 
     </div>
@@ -225,7 +218,9 @@ $con->close();
 <script src="./../js/espacio.js"></script>
 
 <script src="./../../../../utils/form-log-in.js"></script>
-<script src="./../../../utils/translate.js"></script>
+
+  <script src="https://unpkg.com/i18next@21.6.16/dist/umd/i18next.min.js"></script>
+  <script src="./../../../utils/translate.js"></script>
 
 </body>
 </html>
