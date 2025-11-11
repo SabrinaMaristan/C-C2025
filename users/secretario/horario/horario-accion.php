@@ -1,7 +1,12 @@
 <?php
 include('./../../../conexion.php');
-session_start(); // Inicia o continúa la sesión
 
+session_start(); // Inicia o continúa la sesión
+$id_usuario = $_SESSION['id_usuario'] ?? null;
+if (!$id_usuario) {
+  header('Location: ./../../../index.php');
+  exit;
+}
 // Recuperamos el id_secretario de la sesión del usuario logueado.
 // Si no está definido, lo dejamos como null para evitar errores.
 $id_secretario = $_SESSION['id_secretario'] ?? null;

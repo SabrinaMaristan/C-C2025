@@ -1,6 +1,14 @@
 <?php
-session_start();
 include('./../../../conexion.php');
+include('./../../../encabezado.php');
+include('./../../../verificar-sesion.php');
+
+
+$id_usuario = $_SESSION['id_usuario'] ?? null;
+if (!$id_usuario) {
+  header('Location: ./../../../index.php');
+  exit;
+}
 
 // Verificar sesión
 $id_secretario = $_SESSION['id_secretario'] ?? null;
@@ -197,7 +205,7 @@ $con->close();
   <script src="../js/horario.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 
-
+  <script src="../../../utils/verificar-sesion.js"></script> 
   
   <script src="./../../../utils/form-log-in.js"></script> 
 

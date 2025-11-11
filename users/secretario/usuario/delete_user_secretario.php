@@ -2,10 +2,22 @@
 include('./../../../conexion.php');
 $conn = conectar_bd();
 
-$id_usuario = $_GET['id_usuario'] ?? null;
-if (!$id_usuario) {
-    echo "No se proporcionó un ID de usuario.";
-    exit;
+session_start();
+
+// Verificamos que haya sesión activa
+if (!isset($_SESSION['id_usuario'])) {
+  header('Location: ./../../../index.php');
+  exit;
+}
+
+// ID del usuario logueado (secretario)
+$id_usuario_sesion = $_SESSION['id_usuario'];
+
+// ID del usuario que se va a consultar (por GET)
+$id_usuario_get = $_GET['id_usuario'] ?? null;
+if (!$id_usuario_get) {
+  echo "No se proporcionó un ID de usuario.";
+  exit;
 }
 
 // -----------------------------------------------------------------------------

@@ -1,10 +1,7 @@
 <?php
 include('./../../../conexion.php');
 include('./../../../encabezado.php');
-
-
-// Inicia la sesión para poder acceder a las variables globales $_SESSION
-session_start();
+include('./../../../verificar-sesion.php');
 
 
 $id_usuario = $_SESSION['id_usuario'] ?? null;
@@ -410,6 +407,7 @@ $con->close(); // cierro conexión cuando ya tengo todos los datos
 
   <script src="../../../utils/form-log-in.js"></script> 
 
+  <script src="../../../utils/verificar-sesion.js"></script> 
 
     <!-- i18next desde CDN -->
   <script src="https://unpkg.com/i18next@21.6.16/dist/umd/i18next.min.js"></script>

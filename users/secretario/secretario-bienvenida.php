@@ -1,6 +1,14 @@
 <?php
 include('./../../conexion.php');
-session_start();
+include('./../../encabezado.php');
+include('./../../verificar-sesion.php');
+
+
+$id_usuario = $_SESSION['id_usuario'] ?? null;
+if (!$id_usuario) {
+  header('Location: ./../../index.php');
+  exit;
+}
 
 // Obtener el nombre del usuario de la sesión para personalizar el mensaje
 $nombre_secretario = $_SESSION['nombre_usuario'] ?? 'usuario/a';
@@ -12,14 +20,6 @@ $apellido_secretario = $_SESSION['apellido_usuario'] ?? 'usuario/a';
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Panel Secretario</title>
-
-  <!-- Bootstrap CSS + Iconos + letras -->
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"/>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
-
-  <!-- CSS propio -->
-  <link rel="stylesheet" href="./../../css/style.css">
 </head>
 
 <body>
@@ -88,7 +88,8 @@ $apellido_secretario = $_SESSION['apellido_usuario'] ?? 'usuario/a';
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
- 
+  <script src="../../../utils/verificar-sesion.js"></script> 
+
     <!-- i18next desde CDN -->
   <script src="https://unpkg.com/i18next@21.6.16/dist/umd/i18next.min.js"></script>
   <script src="./../../utils/translate.js"></script>
