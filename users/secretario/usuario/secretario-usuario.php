@@ -255,86 +255,87 @@ while ($row = mysqli_fetch_array($query)) {
 
       <!-- Modal creación -->
       <div class="modal fade" id="modalUsuario" tabindex="-1" aria-labelledby="modalUsuarioLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="modalUsuarioLabel" data-i18n="addUser">Agregar Usuario</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="modalUsuarioLabel" data-i18n="addUser">Agregar Usuario</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+            </div>
+
+            <form action="./agregar-usuario.php" method="POST">
+              <div class="modal-body">
+                <div class="mb-3">
+                  <label class="form-label" data-i18n="idCard">Cédula de identidad</label>
+                  <input type="text" name="ci_usuario" class="form-control" 
+                        value="<?= htmlspecialchars($old['ci_usuario'] ?? '') ?>">
+                </div>
+
+                <div class="mb-3">
+                  <label class="form-label" data-i18n="name">Nombre</label>
+                  <input type="text" name="nombre_usuario" class="form-control"
+                        value="<?= htmlspecialchars($old['nombre_usuario'] ?? '') ?>">
+                </div>
+
+                <div class="mb-3">
+                  <label class="form-label" data-i18n="lastName">Apellido</label>
+                  <input type="text" name="apellido_usuario" class="form-control"
+                        value="<?= htmlspecialchars($old['apellido_usuario'] ?? '') ?>">
+                </div>
+
+                <div class="mb-3">
+                  <label class="form-label">Email</label>
+                  <input type="email" name="gmail_usuario" class="form-control"
+                        value="<?= htmlspecialchars($old['gmail_usuario'] ?? '') ?>">
+                </div>
+
+                <div class="mb-3">
+                  <label class="form-label" data-i18n="phone">Teléfono</label>
+                  <input type="text" name="telefono_usuario" class="form-control"
+                        value="<?= htmlspecialchars($old['telefono_usuario'] ?? '') ?>">
+                </div>
+
+                <div class="mb-3">
+                  <label class="form-label" data-i18n="position">Cargo</label>
+                  <select name="cargo_usuario" class="form-select">
+                    <option value="" data-i18n="select">Seleccionar</option>
+                    <option value="Secretario" <?= (isset($old['cargo_usuario']) && $old['cargo_usuario'] === 'Secretario') ? 'selected' : '' ?>>Secretario</option>
+                    <option value="Docente" <?= (isset($old['cargo_usuario']) && $old['cargo_usuario'] === 'Docente') ? 'selected' : '' ?>>Docente</option>
+                    <option value="Adscripto" <?= (isset($old['cargo_usuario']) && $old['cargo_usuario'] === 'Adscripto') ? 'selected' : '' ?>>Adscripto</option>
+                  </select>
+                </div>
+
+                <div class="mb-3">
+                  <label class="form-label" data-i18n="password">Contraseña</label>
+                  <input type="password" name="contrasenia_usuario" class="form-control"
+                        value="<?= htmlspecialchars($old['contrasenia_usuario'] ?? '') ?>">
+                </div>
+              </div>
+
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" data-i18n="cancel">Cerrar</button>
+                <button type="submit" class="btn btn-success" data-i18n="save">Guardar</button>
+              </div>
+            </form>
+          </div>
+        </div>
       </div>
-
-      <form action="./agregar-usuario.php" method="POST">
-        <div class="modal-body">
-          <div class="mb-3">
-            <label class="form-label" data-i18n="idCard">Cédula de identidad</label>
-            <input type="text" name="ci_usuario" class="form-control" 
-                   value="<?= htmlspecialchars($old['ci_usuario'] ?? '') ?>">
-          </div>
-
-          <div class="mb-3">
-            <label class="form-label" data-i18n="name">Nombre</label>
-            <input type="text" name="nombre_usuario" class="form-control"
-                   value="<?= htmlspecialchars($old['nombre_usuario'] ?? '') ?>">
-          </div>
-
-          <div class="mb-3">
-            <label class="form-label" data-i18n="lastName">Apellido</label>
-            <input type="text" name="apellido_usuario" class="form-control"
-                   value="<?= htmlspecialchars($old['apellido_usuario'] ?? '') ?>">
-          </div>
-
-          <div class="mb-3">
-            <label class="form-label">Email</label>
-            <input type="email" name="gmail_usuario" class="form-control"
-                   value="<?= htmlspecialchars($old['gmail_usuario'] ?? '') ?>">
-          </div>
-
-          <div class="mb-3">
-            <label class="form-label" data-i18n="phone">Teléfono</label>
-            <input type="text" name="telefono_usuario" class="form-control"
-                   value="<?= htmlspecialchars($old['telefono_usuario'] ?? '') ?>">
-          </div>
-
-          <div class="mb-3">
-            <label class="form-label" data-i18n="position">Cargo</label>
-            <select name="cargo_usuario" class="form-select">
-              <option value="" data-i18n="select">Seleccionar</option>
-              <option value="Secretario" <?= (isset($old['cargo_usuario']) && $old['cargo_usuario'] === 'Secretario') ? 'selected' : '' ?>>Secretario</option>
-              <option value="Docente" <?= (isset($old['cargo_usuario']) && $old['cargo_usuario'] === 'Docente') ? 'selected' : '' ?>>Docente</option>
-              <option value="Adscripto" <?= (isset($old['cargo_usuario']) && $old['cargo_usuario'] === 'Adscripto') ? 'selected' : '' ?>>Adscripto</option>
-            </select>
-          </div>
-
-          <div class="mb-3">
-            <label class="form-label" data-i18n="password">Contraseña</label>
-            <input type="password" name="contrasenia_usuario" class="form-control"
-                   value="<?= htmlspecialchars($old['contrasenia_usuario'] ?? '') ?>">
-          </div>
-        </div>
-
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" data-i18n="cancel">Cerrar</button>
-          <button type="submit" class="btn btn-success" data-i18n="save">Guardar</button>
-        </div>
-      </form>
-    </div>
-  </div>
-</div>
     </main>
   </div>
 
+
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
-  <script src="./../../../utils/desplegar-acordeon.js"></script>
-
-  <script src="./../../../utils/form-log-in.js"></script>
-
-  <script src="../../../utils/verificar-sesion.js"></script> 
 
   <!-- i18next desde CDN -->
   <script src="https://unpkg.com/i18next@21.6.16/dist/umd/i18next.min.js"></script>
   <script src="./../../../utils/translate.js"></script>
 
+  <!-- manejo de sesión -->
+  <script src="./../../../utils/form-log-in.js"></script> 
+  <script src="./../../../utils/verificar-sesion.js"></script> 
+  
+
+  <script src="./../../../utils/desplegar-acordeon.js"></script>
   <script src="../js/validation.js"></script>
 </body>
 </html>

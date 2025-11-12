@@ -1,5 +1,16 @@
-<?php 
-//include('../../encabezado.php');
+<?php
+include('./../../../conexion.php');
+session_start();
+$con = conectar_bd();
+
+$id_usuario = $_SESSION['id_usuario'] ?? null;
+if (!$id_usuario) {
+  header('Location: ./../../../index.php');
+  exit;
+}
+
+$nombre_adscripto = $_SESSION['nombre_usuario'] ?? '';
+$apellido_adscripto = $_SESSION['apellido_usuario'] ?? '';
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -88,21 +99,21 @@
       <br><br><br>
 
       <h2 data-i18n="reservationRequests">Solicitudes de Reserva</h2>
-      <p data-i18n="viewReservations">Consulta las reservas realizadas por cada docente y los espacios solicitados.</p>
+      <p data-i18n="viewReservations">Visualiza las reservas realizadas.</p>
 
       <table class="tabla-reserva" id="tablaReservas">
             <thead class="table-light">
               <tr>
-                <th>Docente</th>
-                <th>Grupo</th>
-                <th>Asignatura</th>
-                <th>Espacio</th>
-                <th>Día</th>
-                <th>Fecha</th>
-                <th>Hora inicio</th>
-                <th>Hora fin</th>
-                <th>Estado</th>
-                <th>Acción</th>
+                <th data-i18n="teacher">Docente</th>
+                <th data-i18n="group">Grupo</th>
+                <th data-i18n="subject">Asignatura</th>
+                <th data-i18n="facility">Espacio</th>
+                <th data-i18n="onlyDay">Día</th>
+                <th data-i18n="date">Fecha</th>
+                <th data-i18n="startTime">Hora inicio</th>
+                <th data-i18n="endTime">Hora fin</th>
+                <th data-i18n="state">Estado</th>
+                <th data-i18n="action">Acción</th>
               </tr>
             </thead>
             <tbody></tbody>
@@ -113,13 +124,17 @@
 
   </div>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-<script src="https://unpkg.com/i18next@21.6.16/dist/umd/i18next.min.js"></script>
+  <!-- Scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
+  <!-- i18next desde CDN -->
+  <script src="https://unpkg.com/i18next@21.6.16/dist/umd/i18next.min.js"></script>
+  <script src="./../../../utils/translate.js"></script>
 
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <!-- manejo de sesión -->
   <script src="./../../../utils/form-log-in.js"></script> 
-<script src="./../../../utils/translate.js"></script>
+  <script src="./../../../utils/verificar-sesion.js"></script> 
 
   <script src="./../js/adscripto-reservas.js"></script>
 </body>

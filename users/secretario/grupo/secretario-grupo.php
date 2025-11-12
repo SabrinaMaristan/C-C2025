@@ -394,24 +394,19 @@ $con->close(); // cierro conexión cuando ya tengo todos los datos
   </div> 
 
   <!-- Scripts -->
-
-   <!-- SweetAlert2 -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+  <!-- i18next desde CDN -->
+  <script src="https://unpkg.com/i18next@21.6.16/dist/umd/i18next.min.js"></script>
+  <script src="./../../../utils/translate.js"></script>
+
+  <!-- manejo de sesión -->
+  <script src="./../../../utils/form-log-in.js"></script> 
+  <script src="./../../../utils/verificar-sesion.js"></script> 
 
 
   <script src="../js/grupo.js"></script>
   <script src="./../../../utils/desplegar-acordeon.js"></script>
-
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-
-
-  <script src="../../../utils/form-log-in.js"></script> 
-
-  <script src="../../../utils/verificar-sesion.js"></script> 
-
-    <!-- i18next desde CDN -->
-  <script src="https://unpkg.com/i18next@21.6.16/dist/umd/i18next.min.js"></script>
-  <script src="./../../../utils/translate.js"></script>
-
 </body>
 </html>
