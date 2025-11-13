@@ -45,17 +45,12 @@ function json_err($msg) {
   echo json_encode(["type"=>"error","message"=>$msg]); exit;
 }
 
-// Detectar el dominio actual (localhost o tailnet)
+// Detectar el dominio actual
 $host = $_SERVER['HTTP_HOST']; // ej: localhost o dbitsp.tailff9876.ts.net
-$basePath = '/CoffeeAndCode/C-C2025/'; // ruta base del proyecto
-
-// Ruta física (carpeta real en el servidor)
+$basePath = '/CoffeeAndCode/C-C2025/';
 $rutaFisicaUploads = realpath(__DIR__ . '/../../../') . '/uploads/';
-
-// URL pública (para mostrar imágenes)
 $urlBaseUploads = "https://$host$basePath" . "uploads/";
 
-// Crear carpeta uploads si no existe
 if (!is_dir($rutaFisicaUploads)) {
   mkdir($rutaFisicaUploads, 0777, true);
 }
@@ -75,22 +70,19 @@ try {
     if ($cap < 1 || $cap > 100) json_err("Capacidad inválida (1-100).");
     if (!in_array($tipo, $tipos)) json_err("Tipo de espacio inválido.");
 
-    // Subir imagen (opcional)
-    $id_imagen = null;
-    if (isset($_FILES['imagen_espacio']) && $_FILES['imagen_espacio']['error'] === UPLOAD_ERR_OK) {
+     $id_imagen = null;
+    if (!empty($_FILES['imagen_espacio']['tmp_name'])) {
       $nombreOriginal = $_FILES['imagen_espacio']['name'];
-      $tmp = $_FILES['imagen_espacio']['tmp_name'];
       $ext = strtolower(pathinfo($nombreOriginal, PATHINFO_EXTENSION));
       $nombreUnico = uniqid('img_') . '.' . $ext;
       $destino = $rutaFisicaUploads . $nombreUnico;
-
-      if (move_uploaded_file($tmp, $destino)) {
+      if (move_uploaded_file($_FILES['imagen_espacio']['tmp_name'], $destino)) {
         $stmt = $con->prepare("INSERT INTO imagenes (nombre) VALUES (?)");
         $stmt->bind_param("s", $nombreUnico);
         $stmt->execute();
         $id_imagen = $stmt->insert_id;
       } else {
-        json_err("Error al guardar la imagen en el servidor.");
+        json_err("Error al guardar la imagen.");
       }
     }
 
@@ -98,8 +90,8 @@ try {
     $q = $con->prepare("INSERT INTO espacio (nombre_espacio, capacidad_espacio, historial_espacio, tipo_espacio, id_imagen)
                         VALUES (?,?,?,?,?)");
     $q->bind_param("sissi", $nombre, $cap, $hist, $tipo, $id_imagen);
-    if (!$q->execute()) json_err("Error al crear espacio: " . $con->error);
-    json_ok("Espacio creado correctamente.", ["id_espacio" => $q->insert_id]);
+    if (!$q->execute()) json_err("Error al crear espacio: ".$con->error);
+    json_ok("Espacio creado correctamente.");
   }
 
   // ================== ATRIBUTOS ==================
@@ -169,16 +161,13 @@ try {
     if ($cap < 1 || $cap > 100) json_err("Capacidad inválida (1-100).");
     if (!in_array($tipo, $tipos)) json_err("Tipo de espacio inválido.");
 
-    // Subir nueva imagen (opcional)
     $id_imagen = null;
-    if (isset($_FILES['imagen_espacio']) && $_FILES['imagen_espacio']['error'] === UPLOAD_ERR_OK) {
+    if (!empty($_FILES['imagen_espacio']['tmp_name'])) {
       $nombreOriginal = $_FILES['imagen_espacio']['name'];
-      $tmp = $_FILES['imagen_espacio']['tmp_name'];
       $ext = strtolower(pathinfo($nombreOriginal, PATHINFO_EXTENSION));
       $nombreUnico = uniqid('img_') . '.' . $ext;
       $destino = $rutaFisicaUploads . $nombreUnico;
-
-      if (move_uploaded_file($tmp, $destino)) {
+      if (move_uploaded_file($_FILES['imagen_espacio']['tmp_name'], $destino)) {
         $stmt = $con->prepare("INSERT INTO imagenes (nombre) VALUES (?)");
         $stmt->bind_param("s", $nombreUnico);
         $stmt->execute();
@@ -196,9 +185,10 @@ try {
       $q->bind_param("sissi", $nombre, $cap, $hist, $tipo, $id);
     }
 
-    if (!$q->execute()) json_err("Error al actualizar: " . $q->error);
+    if (!$q->execute()) json_err("Error al actualizar: ".$q->error);
     json_ok("Espacio actualizado correctamente.");
   }
+
 
   // ================== ELIMINAR ==================
   if ($accion === 'eliminar') {
