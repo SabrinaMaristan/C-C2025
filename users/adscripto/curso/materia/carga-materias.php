@@ -138,7 +138,7 @@ $query = mysqli_query($conn, $sql);
                     <div class="modal-body">
                         <input type="hidden" name="id_asignatura" value="<?= $row['id_asignatura'] ?>">
                         <div class="form-group">
-                            <input type="text" class="form-control" name="editar-materia" placeholder="Ej: Programación Full-Stack" value="<?= htmlspecialchars($row['nombre_asignatura']) ?>">
+                            <input type="text" class="form-control" name="editar-materia" placeholder="Ej: Programación Full Stack" value="<?= htmlspecialchars($row['nombre_asignatura']) ?>">
                             <small class="form-text text-muted" data-i18n="ensureWrittenCorrectly">Asegúrese de que quede bien escrito.</small>
                         </div>
                         <button type="submit" class="btn btn-primary" data-i18n="save">Guardar</button>

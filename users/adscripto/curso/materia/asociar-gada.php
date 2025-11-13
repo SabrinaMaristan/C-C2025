@@ -172,7 +172,7 @@ AND docente.id_usuario = usuario.id_usuario');
 </div>
       <br><br>
       <h2 data-i18n="assignments">Asignaciones</h2>
-      <table class="tabla-reserva">
+      <table class="tabla-adscripto">
         <thead>
           <tr>
             <th data-i18n="subjectName">Nombre Asignatura</th>
