@@ -94,7 +94,7 @@ while ($row = mysqli_fetch_assoc($resultGrupos)) {
 
     <!-- Contenido principal -->
     <main class="principal">
-      <img src="./../../../../../img/logo.png" alt="Logo" class="logo"> 
+      <img src="./../../../../img/logo.png" alt="Logo" class="logo"> 
       <h2 data-i18n="loadHour">Cargar Hora</h2>
       <p data-i18n="enterGroupHours">Ingrese el grupo en el cual va a agregar las horas dictadas.</p>
 

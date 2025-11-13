@@ -5,12 +5,6 @@ $con = conectar_bd();
 // Obtener id_grupo desde la URL (se pasa desde asignar-hora.php)
 $id_grupo = $_GET['id_grupo'] ?? null;
 
-// TEMPORAL
-if (!$id_grupo) {
-  echo "<div style='margin: 2rem; color: red;'> No se especificó ningún grupo. 
-        <a href='../adscripto-curso.php'>Volver</a></div>";
-  exit;
-}
 
 // Obtener datos del grupo seleccionado
 $grupoInfo = mysqli_query($con, "SELECT nombre_grupo FROM grupo WHERE id_grupo = $id_grupo");
@@ -193,7 +187,7 @@ if ($enum_query) {
            <button class=" toggle-dia boton-opciones  colorletrablanco jueves" ><?= $dia ?></button>
             <div class="contenido-dia">
               <?php if ($lista): ?>
-                <table class="tabla-reserva">
+                <table class="tabla-adscripto">
                   <tr>
                     <th data-i18n="startTime">Horario entrada</th>
                     <th data-i18n="endTime">Horario salida</th>
