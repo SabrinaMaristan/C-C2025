@@ -233,7 +233,7 @@ $espacios = $con->query("SELECT * FROM espacio WHERE tipo_espacio = '$tipoDetect
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script src="./../js/espacio.js"></script>
 
-<script src="./../../../../utils/form-log-in.js"></script>
+<script src="./../../../utils/form-log-in.js"></script>
 
   <script src="https://unpkg.com/i18next@21.6.16/dist/umd/i18next.min.js"></script>
   <script src="./../../../utils/translate.js"></script>
