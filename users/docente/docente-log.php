@@ -82,7 +82,7 @@ include('./../../conexion.php');
           <i class="bi bi-person-circle"></i>
         </div>
 
-        <form id="form-login" class="formulario" action="/utils/log-in.php" method="POST"> 
+        <form id="form-login" class="formulario" action="./../../utils/log-in.php" method="POST"> 
           <div class="input-group mb-3"> <!-- Agrupa el ícono y el input juntos. y mb-3 margen inferior-->
             <span class="input-group-text"><i class="bi bi-person"></i></span> <!-- Estilo para el span que contiene el ícono. -->
             <input data-i18n-placeholder="idCard" type="text" class="form-control" placeholder="Cédula de Identidad"
