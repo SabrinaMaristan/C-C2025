@@ -1,5 +1,11 @@
 <?php 
-include('../../../../conexion.php');
+include('./../../../../conexion.php');
+
+$id_usuario = $_SESSION['id_usuario'] ?? null;
+if (!$id_usuario) {
+  header('Location: ./../../../index.php');
+  exit;
+}
 $conn = conectar_bd();
 if (isset($_GET['id_gada'])) {
     $id_gada = intval($_GET['id_gada']); // Convertir a entero por seguridad
