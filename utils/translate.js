@@ -1,5 +1,5 @@
 // Inicialización de i18next con recursos embebidos
-//Objeto de javascript = JSON. JSON es texto q representa un objeto.
+//Objeto de javascript = JSON. JSON es texto q representa un objeto
 i18next.init({
   lng: localStorage.getItem('language') || "es", // Recuperar el idioma desde localStorage, si no existe, usar "es" por defecto
   debug: true, //permite ver información en la consola útil para depuración.

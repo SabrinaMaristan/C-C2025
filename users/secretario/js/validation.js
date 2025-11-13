@@ -71,8 +71,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const msg = params.get("msg");
     const exitos = {
       InsercionExitosa: i18next.t('userCreatedSuccessfully') ,
-      EdicionExitosa: i18next.t('editSuccessfully') ,
-      EliminacionExitosa:  i18next.t('deletionSuccessfully') ,
+      EdicionExitosa: i18next.t('succesfulEdit') ,
+      EliminacionExitosa:  i18next.t('successfulDeletion') ,
     };
     if (exitos[msg])
       Swal.fire({
