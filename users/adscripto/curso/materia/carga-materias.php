@@ -1,5 +1,5 @@
 <?php 
-include('../../../../conexion.php');
+include('./../../../../conexion.php');
 $conn = conectar_bd();
 $sql = "SELECT * FROM asignatura";
 $query = mysqli_query($conn, $sql);
@@ -17,7 +17,7 @@ $query = mysqli_query($conn, $sql);
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
     
     <!-- CSS propio -->
-    <link rel="stylesheet" href="../../../../css/style.css">
+    <link rel="stylesheet" href="./../../../../css/style.css">
 </head>
 
 <body>
@@ -87,7 +87,7 @@ $query = mysqli_query($conn, $sql);
     <!-- Contenido principal -->
     <main class="principal">
 
-      <img src="./../../../../../img/logo.png" alt="Logo" class="logo"> 
+      <img src="./../../../../img/logo.png" alt="Logo" class="logo"> 
       <h2 id="asignatura-carga" data-i18n="loadSubject">Cargar Asignatura</h2>
       <p data-i18n="enterSubject">Ingrese la asignatura</p>
 
@@ -104,7 +104,7 @@ $query = mysqli_query($conn, $sql);
       
 
       <h2 id="asignatura-carga2" data-i18n="loadedSubjects">Asignaturas cargadas</h2>
-      <table class="tabla-reserva">
+      <table class="tabla-adscripto">
         <thead>
             <tr>
                 <th scope="col" data-i18n="nameLoadedSubjects">Nombre de asignaturas cargadas</th>

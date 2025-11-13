@@ -121,11 +121,11 @@ $espacios = $con->query("SELECT * FROM espacio WHERE tipo_espacio = '$tipoDetect
             $imgRes = $con->query("SELECT nombre FROM imagenes WHERE id_imagen = " . (int)$esp['id_imagen']);
             $imgRow = $imgRes ? $imgRes->fetch_assoc() : null;
             if ($imgRow && file_exists(__DIR__ . '/../../../uploads/' . $imgRow['nombre'])):
-              $ruta = './../../../uploads/' . htmlspecialchars($imgRow['nombre']);
+            $ruta = '/CoffeeAndCode/C-C2025/uploads/' . htmlspecialchars($imgRow['nombre']);
           ?>
-              <img src="<?= $ruta ?>" alt="Imagen del espacio" style="max-width:100%; max-height:180px; object-fit:cover;">
+            <img src="<?= $ruta ?>" alt="Imagen del espacio" style="max-width:100%; max-height:180px; object-fit:cover;">
           <?php else: ?>
-              <span class="text-muted">Sin imagen</span>
+            <span class="text-muted">Sin imagen</span>
           <?php endif; ?>
         <?php else: ?>
           <span class="text-muted">Sin imagen</span>

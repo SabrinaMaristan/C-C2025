@@ -85,7 +85,7 @@
 
     <!-- Contenido principal -->
     <main class="principal"> 
-      <img src="./../../../../img/logo.png" alt="Logo" class="logo">
+      <img src="./../../../img/logo.png" alt="Logo" class="logo">
 
   <div class="loader"></div>
   <h1 data-i18n="underMaintenance">Estamos en mantenimiento</h1>
