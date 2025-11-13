@@ -119,14 +119,18 @@ $espacios = $con->query("SELECT * FROM espacio WHERE tipo_espacio = '$tipoDetect
           <?php
             $imgRes = $con->query("SELECT nombre FROM imagenes WHERE id_imagen = " . (int)$esp['id_imagen']);
             $imgRow = $imgRes ? $imgRes->fetch_assoc() : null;
-
             if ($imgRow):
-              $ruta = 'https://' . $_SERVER['HTTP_HOST'] . '/CoffeeAndCode/C-C2025/uploads/' . htmlspecialchars($imgRow['nombre']);
+              $host = $_SERVER['HTTP_HOST'];
+              $basePath = '/CoffeeAndCode/C-C2025/';
+              $ruta = "https://$host$basePath" . "uploads/" . htmlspecialchars($imgRow['nombre']);
           ?>
               <img src="<?= $ruta ?>" alt="Imagen del espacio" class="img-fluid rounded" style="max-height:180px; object-fit:cover;">
+          <?php else: ?>
+              <span class="text-muted">Sin imagen</span>
           <?php endif; ?>
+        <?php else: ?>
+          <span class="text-muted">Sin imagen</span>
         <?php endif; ?>
-
       </div>
 
 
