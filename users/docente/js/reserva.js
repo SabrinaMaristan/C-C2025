@@ -240,7 +240,7 @@ async function cargarEspaciosLibres() {
     if (!id_grupo) throw new Error("Seleccione un grupo primero.");
 
     // Consultar el espacio ya asignado a este grupo
-    const resAsignado =    fetch(`./../reserva/reserva-accion.php?accion=espacio_asignado&id_grupo=${id_grupo}`);
+    const resAsignado =  await fetch(`./../reserva/reserva-accion.php?accion=espacio_asignado&id_grupo=${id_grupo}`);
     const dataAsignado = await resAsignado.json();
      // Extrae el id del espacio asignado (si existe)
     const id_espacio_asignado = dataAsignado?.id_espacio ?? null;
