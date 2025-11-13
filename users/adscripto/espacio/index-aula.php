@@ -115,22 +115,22 @@ $espacios = $con->query("SELECT * FROM espacio WHERE tipo_espacio = '$tipoDetect
     <div class="espacio-card cursor-pointer">
       <div class="espacio-cuerpo d-flex justify-content-center align-items-center" data-id="<?= (int)$esp['id_espacio'] ?>">
 
-        <?php if (!empty($esp['id_imagen'])): ?>
-          <?php
+        <?php
+          if (!empty($esp['id_imagen'])) {
             $imgRes = $con->query("SELECT nombre FROM imagenes WHERE id_imagen = " . (int)$esp['id_imagen']);
             $imgRow = $imgRes ? $imgRes->fetch_assoc() : null;
-            if ($imgRow):
+            if ($imgRow) {
               $host = $_SERVER['HTTP_HOST'];
               $basePath = '/CoffeeAndCode/C-C2025/';
-              $ruta = "https://$host$basePath" . "uploads/" . htmlspecialchars($imgRow['nombre']);
+              $url = "https://$host$basePath" . "uploads/" . htmlspecialchars($imgRow['nombre']);
+              echo '<img src="' . $url . '" alt="Imagen del espacio" class="img-fluid rounded" style="max-height:180px;object-fit:cover;">';
+            } else {
+              echo '<span class="text-muted">Sin imagen</span>';
+            }
+          } else {
+            echo '<span class="text-muted">Sin imagen</span>';
+          }
           ?>
-              <img src="<?= $ruta ?>" alt="Imagen del espacio" class="img-fluid rounded" style="max-height:180px; object-fit:cover;">
-          <?php else: ?>
-              <span class="text-muted">Sin imagen</span>
-          <?php endif; ?>
-        <?php else: ?>
-          <span class="text-muted">Sin imagen</span>
-        <?php endif; ?>
       </div>
 
 
