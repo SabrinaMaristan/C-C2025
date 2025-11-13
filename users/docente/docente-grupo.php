@@ -1,8 +1,9 @@
 <?php 
 include('../../conexion.php');
-session_start();
+session_start(); //continua la sesion que ya esta activa
 
 // Verificamos sesión
+//si no hay sesion activa lo lleva al login
 if (!isset($_SESSION['id_usuario'])) {
   header("Location: ../../login.php");
   exit;
@@ -12,30 +13,34 @@ $con = conectar_bd();
 
 // Obtener el id_docente correspondiente al usuario logueado
 $id_usuario = $_SESSION['id_usuario'];
+//hace la consulta
 $sqlDocente = "SELECT id_docente FROM docente WHERE id_usuario = ?";
+//prepara la consulta
 $stmt = $con->prepare($sqlDocente);
+//remplaza el ? por el id del usuario
 $stmt->bind_param("i", $id_usuario);
-$stmt->execute();
-$result = $stmt->get_result();
-$docente = $result->fetch_assoc();
+$stmt->execute(); //ejecuta
+$result = $stmt->get_result(); //obtiene los resultados 
+$docente = $result->fetch_assoc(); // guarda el resultado en el array
 
-if (!$docente) {
-  die("<p>No se encontró un docente asociado a este usuario.</p>");
-}
-$id_docente = $docente['id_docente'];
+$id_docente = $docente['id_docente']; // si esta todo bien se guarda el id_docente
 
-// Obtener los grupos asignados al docente (sin duplicados)
+// Obtener los grupos asignados al docente (sin duplicados - DISTINCT)
 $sqlGrupos = "
   SELECT DISTINCT g.id_grupo, g.nombre_grupo, g.orientacion_grupo, g.turno_grupo
   FROM grupo_asignatura_docente_aula gada
   JOIN grupo g ON g.id_grupo = gada.id_grupo
-  WHERE gada.id_docente = ?
+  WHERE gada.id_docente = ? 
   ORDER BY g.turno_grupo, g.nombre_grupo
 ";
+
+//prepara ejecuta y obtiene los resultados del grupo
 $stmt2 = $con->prepare($sqlGrupos);
 $stmt2->bind_param("i", $id_docente);
 $stmt2->execute();
 $grupos = $stmt2->get_result();
+
+
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -54,9 +59,9 @@ $grupos = $stmt2->get_result();
 <body>
 
   <!-- Menú hamburguesa para móviles -->
-  <nav class="d-md-none">
+  <nav class="d-md-none"> <!-- Oculta el nav en pantallas medianas hacia arriba -->
     <div class="container-fluid">
-      <button class="btn" type="button" data-bs-toggle="offcanvas" data-bs-target="#menuLateral">
+      <button class="btn" type="button" data-bs-toggle="offcanvas" data-bs-target="#menuLateral"> <!-- Se abre el menu tipo offcanvas (panel lateral) -->
         <img class="menuResponsive" src="./../../img/menu.png" alt="menu">
       </button>
       <img class="logoResponsive" src="./../../img/logo.png" alt="logoResponsive">
@@ -64,7 +69,7 @@ $grupos = $stmt2->get_result();
   </nav>
 
   <!-- Menú lateral (para celulares/tablets) -->
-  <div class="offcanvas offcanvas-start" tabindex="-1" id="menuLateral">
+  <div class="offcanvas offcanvas-start" tabindex="-1" id="menuLateral">  <!-- off-canvas-start hace qeu el menu se abra desde la izquierda y -1 hace que el menu sea enfocable-->
     <div class="offcanvas-header">
       <button type="button" class="btn-close" data-bs-dismiss="offcanvas"></button>
     </div>
@@ -125,13 +130,13 @@ $grupos = $stmt2->get_result();
 
       <div class="caja-grupos-cargo">
         <div class="acordion">
-          <?php if ($grupos->num_rows > 0): ?>
-            <?php while ($g = $grupos->fetch_assoc()): ?>
+          <?php if ($grupos->num_rows > 0): ?>     <!-- si el numero de columnas en mayor a 0 (el docente tiene un grupo) -->
+            <?php while ($g = $grupos->fetch_assoc()): ?> <!-- lo recorre -->
   <div class="dia">
-    <button class="boton-opciones docente" data-id="<?= $g['id_grupo'] ?>">
-      <?= htmlspecialchars($g['nombre_grupo']) ?>
+    <button class="boton-opciones docente" data-id="<?= $g['id_grupo'] ?>"> <!-- es un atajo, es lo mimso que poner echo-->
+      <?= htmlspecialchars($g['nombre_grupo']) ?> 
       <span class="capacidad-modal">(<?= htmlspecialchars($g['turno_grupo']) ?>)</span>
-    </button>
+    </button><!-- se muestra el nombre y el turno principalmente-->
 
     <!-- Contenedor oculto por defecto -->
     <div class="contenido-grupo grupos-docente-responsive">
@@ -156,7 +161,7 @@ $grupos = $stmt2->get_result();
   </div>
 <?php endwhile; ?>
 
-   <?php else: ?>
+   <?php else: ?> <!-- Sino muestra que no tiene grupos asignados -->
             <p class="text-muted" data-i18n="anyGroupAssigned">No tienes grupos asignados actualmente.</p>
           <?php endif; ?>
         </div>

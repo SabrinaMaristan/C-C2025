@@ -3,14 +3,18 @@ include('./../../conexion.php');
 $conn = conectar_bd();
 
 // Obtener todos los grupos con su id y nombre
-$sqlGrupos = "SELECT id_grupo, nombre_grupo FROM grupo";
-$resultGrupos = mysqli_query($conn, $sqlGrupos);
-$grupos = [];
+$sqlGrupos = "SELECT id_grupo, nombre_grupo FROM grupo"; // consulta SQL 
+$resultGrupos = mysqli_query($conn, $sqlGrupos); // el resultado de la consulta se guarda en resulGrupos
+$grupos = []; 
 
-    // fila           // array asociativo
+    // fila           // array asociativo      // se pasan los resultados a un arreglo
 while ($row = mysqli_fetch_assoc($resultGrupos)) {
     $grupos[] = $row; // cada *FILA tiene ['id_grupo', 'nombre_grupo']
 }
+
+//Toma todas las filas que vienen del resultado de la consulta SQL 
+// y las guarda una por una dentro del array $grupos.
+
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -31,9 +35,9 @@ while ($row = mysqli_fetch_assoc($resultGrupos)) {
 <body>
 
   <!-- Menú hamburguesa para móviles -->
-  <nav class="d-md-none">
+  <nav class="d-md-none"> <!-- Oculta el nav en pantallas medianas hacia arriba -->
     <div class="container-fluid">
-      <button class="btn" type="button" data-bs-toggle="offcanvas" data-bs-target="#menuLateral">
+      <button class="btn" type="button" data-bs-toggle="offcanvas" data-bs-target="#menuLateral"> <!-- Se abre el menu tipo offcanvas (panel lateral) -->
         <img class="menuResponsive" src="./../../img/menu.png" alt="menu">
       </button>
       <img class="logoResponsive" src="./../../img/logo.png" alt="logoResponsive">
@@ -41,7 +45,7 @@ while ($row = mysqli_fetch_assoc($resultGrupos)) {
   </nav>
 
   <!-- Menú lateral (para celulares/tablets) -->
-  <div class="offcanvas offcanvas-start" tabindex="-1" id="menuLateral">
+  <div class="offcanvas offcanvas-start" tabindex="-1" id="menuLateral"> <!-- off-canvas-start hace qeu el menu se abra desde la izquierda y -1 hace que el menu sea enfocable-->
     <div class="offcanvas-header">
       <button type="button" class="btn-close" data-bs-dismiss="offcanvas"></button>
     </div>
@@ -91,10 +95,15 @@ while ($row = mysqli_fetch_assoc($resultGrupos)) {
         <i class="bi bi-search icono-busqueda"></i>
         <input type="text" class="diseno-busqueda" data-i18n-placeholder="enterGroupPlaceholder" placeholder="Ingrese su grupo" list="lista-grupos" id="grupoInput" />
           <datalist id="lista-grupos">
-          <?php foreach ($grupos as $g): ?>
+          <?php foreach ($grupos as $g): ?> <!-- Recorre grupos -->
             <option value="<?php echo htmlspecialchars($g['nombre_grupo'], ENT_QUOTES, 'UTF-8'); ?>" 
                     data-id="<?php echo $g['id_grupo']; ?>">
             </option>
+            
+             <!-- Por cada grupo, se genera una etiqueta <option> dentro del <datalist>.
+                  value: muestra el nombre del grupo al usuario
+                  data-id: guarda el id real del grupo que despues se va a usar en JavaScript)
+             -->
           <?php endforeach; ?>
         </datalist> 
       </div>
@@ -105,6 +114,7 @@ while ($row = mysqli_fetch_assoc($resultGrupos)) {
   <!-- Bootstrap JS -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
   <script src="js/redireccionar-grupo.js"></script>
+
   <!-- i18next desde CDN -->
   <script src="https://unpkg.com/i18next@21.6.16/dist/umd/i18next.min.js"></script>
   <script src="./../../utils/translate.js"></script>

@@ -1,7 +1,7 @@
 <?php
-session_start();
-session_unset();
-session_destroy();
+session_start(); //inicia o reanuda sesion existente
+session_unset(); //elimina variables almacenadas en $_SESSION
+session_destroy();//elimina completamente la sesión del servidor.
 
 // Construir ruta completa a la raíz del proyecto
 $host = $_SERVER['HTTP_HOST']; // dbitsp.tailff9876.ts.net (Detectar el dominio / servidor)
@@ -11,5 +11,5 @@ $basePath = '/CoffeeAndCode/C-C2025/';
 
 // Redirigir correctamente
 header("Location: https://$host$basePath" . "index.php");
-exit();
+exit(); // se detiene la ejecucion
 ?>

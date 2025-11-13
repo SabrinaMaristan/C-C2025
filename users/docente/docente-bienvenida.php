@@ -24,7 +24,7 @@ $apellido_docente = $_SESSION['apellido_usuario'] ?? 'usuario/a';
 
 <body>
   <!-- Menú hamburguesa para móviles -->
-  <nav class="d-md-none">
+  <nav class="d-md-none"> <!-- Oculta el nav en pantallas medianas hacia arriba -->
     <div class="container-fluid">
       <button class="btn" type="button" data-bs-toggle="offcanvas" data-bs-target="#menuLateral">
         <img class="menuResponsive" src="./../../img/menu.png" alt="menu">
@@ -34,9 +34,9 @@ $apellido_docente = $_SESSION['apellido_usuario'] ?? 'usuario/a';
   </nav>
 
   <!-- Menú lateral (para celulares/tablets) -->
-  <div class="offcanvas offcanvas-start" tabindex="-1" id="menuLateral">
+  <div class="offcanvas offcanvas-start" tabindex="-1" id="menuLateral"> <!-- off-canvas-start hace qeu el menu se abra desde la izquierda y -1 hace que el menu sea enfocable-->
     <div class="offcanvas-header">
-      <button type="button" class="btn-close" data-bs-dismiss="offcanvas"></button>
+      <button type="button" class="btn-close" data-bs-dismiss="offcanvas"></button> 
     </div>
     <div class="offcanvas-body d-flex flex-column">
       <div class="banner-parte-superior">
@@ -46,9 +46,9 @@ $apellido_docente = $_SESSION['apellido_usuario'] ?? 'usuario/a';
         </a>
         <i class="bi bi-translate traductor-menu"></i>
       </div>
-      <a href="docente-grupo.php" class="nav-opciones" data-i18n="assignedGroups">Grupos a Cargo</a>
+      <a href="./docente-grupo.php" class="nav-opciones" data-i18n="assignedGroups">Grupos a Cargo</a>
       <a href="./reserva/docente-reservar.php" class="nav-opciones" data-i18n="reserveFacility">Reservar Espacio</a>
-      <a href="docente-falta.php" class="nav-opciones" data-i18n="reportAbsence" >Avisar Falta</a>
+      <a href="./docente-falta.php" class="nav-opciones" data-i18n="reportAbsence" >Avisar Falta</a>
     </div>
   </div>
 
@@ -67,16 +67,21 @@ $apellido_docente = $_SESSION['apellido_usuario'] ?? 'usuario/a';
         <i class="bi bi-translate traductor-menu"></i>
       </div>
 
-      <a href="docente-grupo.php" class="nav-opciones" data-i18n="assignedGroups" >Grupos a Cargo</a>
+      <a href="./docente-grupo.php" class="nav-opciones" data-i18n="assignedGroups" >Grupos a Cargo</a>
       <a href="./reserva/docente-reservar.php" class="nav-opciones" data-i18n="reserveFacility">Reservar Espacio</a>
-      <a href="docente-falta.php" class="nav-opciones" data-i18n="reportAbsence">Avisar Falta</a>
+      <a href="./docente-falta.php" class="nav-opciones" data-i18n="reportAbsence">Avisar Falta</a>
     </aside>
 
     <!-- Contenido principal -->
     <main class="principal">
       <img src="./../../img/logo.png" alt="Logo" class="logo"> 
+
       <h1 class="bienvenida"> <span data-i18n="welcom3">Bienvenid@</span> <br>
+
       <?php echo htmlspecialchars($nombre_docente). ' ' . htmlspecialchars($apellido_docente). '!'; ?></h1>
+         <!-- imprime nombre y apellido separados por un espacio-->
+         <!-- htmlspecialchars convierte caracteres especiales en entidades HTML, para evitar ataques XSS -->
+
       <p class="p-bienvenida" data-i18n="welcomeDescription"> Para comenzar, utiliza la barra lateral ubicada a la izquierda de la pantalla. Desde allí podrás acceder fácilmente a las distintas secciones y funciones del sistema.</p>
     </main>
 

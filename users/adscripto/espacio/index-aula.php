@@ -11,7 +11,6 @@ elseif (strpos($file, 'salon') !== false) $tipoDetectado = 'Salón';
 
 // Traer espacios de ese tipo
 $espacios = $con->query("SELECT * FROM espacio WHERE tipo_espacio = '$tipoDetectado' ORDER BY nombre_espacio");
-$con->close();
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -46,36 +45,32 @@ $con->close();
     </div>
     <div class="offcanvas-body d-flex flex-column">
       <div class="banner-parte-superior">
-      <a href="adscripto-espacio.php" class="mb-3"><i class="bi bi-arrow-left-circle-fill me-2"></i><span data-i18n="goBack">Volver</span></a>
-      <i class="bi bi-translate traductor-menu"></i>
+        <a href="adscripto-espacio.php" class="mb-3"><i class="bi bi-arrow-left-circle-fill me-2"></i><span data-i18n="goBack">Volver</span></a>
+          <i class="bi bi-translate traductor-menu"></i>
       </div>
 
       <a href="adscripto-espacio.php" class="fw-semibold seleccionado mb-2" data-i18n="facility">Espacio</a>
       <a href="./../reserva/reserva-adscripto.php" class="nav-opciones mb-2" data-i18n="reservation">Reserva</a>
       <a href="./../falta/falta-docente.php" class="nav-opciones mb-2" data-i18n="teacherAbsence">Falta docente</a>
       <a href="./../curso/adscripto-curso.php" class="nav-opciones mb-2" data-i18n="courseManagement">Gestión de cursos</a>
-     
     
       <!-- BOTÓN CERRAR SESIÓN -->
-   <a href="#" class="btn-cerrar-sesion-bajo btn-cerrar-sesion mb-3">
-    <i class="bi bi-box-arrow-right me-2"></i>
-    <span data-i18n="sessionClose">Cerrar sesión</span>
-  </a>
-    
-    
+      <a href="#" class="btn-cerrar-sesion-bajo btn-cerrar-sesion mb-3">
+        <i class="bi bi-box-arrow-right me-2"></i>
+        <span data-i18n="sessionClose">Cerrar sesión</span>
+      </a>
     </div>
   </div>
 
   <!-- Contenedor general -->
- <!-- Contenedor general con GRID -->
 <div class="contenedor">
 
   <!-- Banner pantallas grandes -->
-  <div class="barra-lateral d-none d-md-flex">
-    <div class="volverGeneral">
-      <div class="volver">
-        <a href="adscripto-espacio.php"><i class="bi bi-arrow-left-circle-fill icono-volver"></i></a>
-        <a href="adscripto-espacio.php" data-i18n="goBack">Volver</a>
+  <aside class="barra-lateral d-none d-md-flex flex-column">
+      <div class="volverGeneral">
+        <div class="volver">
+        <a href="./adscripto-espacio.php"><i class="bi bi-arrow-left-circle-fill icono-volver"></i></a>
+        <a href="./adscripto-espacio.php" data-i18n="goBack">Volver</a>
       </div>
       <i class="bi bi-translate traductor-menu"></i>
     </div>
@@ -87,13 +82,11 @@ $con->close();
   
   
       <!-- BOTÓN CERRAR SESIÓN -->
-   <a href="#" class="btn-cerrar-sesion-bajo btn-cerrar-sesion mb-3">
-    <i class="bi bi-box-arrow-right me-2"></i>
-    <span data-i18n="sessionClose">Cerrar sesión</span>
-  </a>
-    
-  
-    </div>
+      <a href="#" class="btn-cerrar-sesion-bajo btn-cerrar-sesion mb-3">
+        <i class="bi bi-box-arrow-right me-2"></i>
+        <span data-i18n="sessionClose">Cerrar sesión</span>
+      </a>
+    </aside>
 
   <!-- Contenido principal -->
   <main class="principal">
@@ -118,10 +111,27 @@ $con->close();
     <?php while($esp = $espacios->fetch_assoc()): ?>
     <div class="col-6 mb-4">
       
-        
-    <div class="espacio-card cursor-pointer" data-id="<?= (int)$esp['id_espacio'] ?>">
-        
-      <div class="espacio-cuerpo"> </div>
+    <!-- Muestra la tarjetas con los diversos atributos del espacio el cual los trae desde el array $espacios -->    
+    <div class="espacio-card cursor-pointer">
+      <div class="espacio-cuerpo d-flex justify-content-center align-items-center" data-id="<?= (int)$esp['id_espacio'] ?>">
+
+        <?php if (!empty($esp['id_imagen'])): ?>
+          <?php
+            // Buscar la imagen asociada
+            $imgRes = $con->query("SELECT nombre FROM imagenes WHERE id_imagen = " . (int)$esp['id_imagen']);
+            $imgRow = $imgRes ? $imgRes->fetch_assoc() : null;
+            if ($imgRow && file_exists(__DIR__ . '/../../../uploads/' . $imgRow['nombre'])):
+              $ruta = './../../../uploads/' . htmlspecialchars($imgRow['nombre']);
+          ?>
+              <img src="<?= $ruta ?>" alt="Imagen del espacio" style="max-width:100%; max-height:180px; object-fit:cover;">
+          <?php else: ?>
+              <span class="text-muted">Sin imagen</span>
+          <?php endif; ?>
+        <?php else: ?>
+          <span class="text-muted">Sin imagen</span>
+        <?php endif; ?>
+      </div>
+
 
         <div class="espacio-footer d-flex justify-content-between align-items-center">
           <button class="btn btn-sm btn-light" data-bs-toggle="modal" data-bs-target="#modalEspacio"
@@ -153,7 +163,8 @@ $con->close();
       </div>
 
       <div class="modal-body">
-        <!-- PASO 1 -->
+        <!-- PASO 1: datos del espacio -->
+
         <form id="formPaso1" autocomplete="off" novalidate>
           <input type="hidden" id="accion" name="accion" value="crear">
           <input type="hidden" id="id_espacio" name="id_espacio">
@@ -169,15 +180,19 @@ $con->close();
             <input type="number" id="capacidad_espacio" name="capacidad_espacio" class="form-control" min="1" max="100" required>
           </div>
 
-         
-
           <div class="mb-3">
             <label for="historial_espacio" class="form-label" data-i18n="historyNotes">Historial / Observaciones</label>
             <textarea id="historial_espacio" name="historial_espacio" class="form-control" rows="3"></textarea>
           </div>
+
+          <div class="mb-3">
+            <label for="imagen_espacio" class="form-label">Imagen del espacio (opcional)</label>
+            <input type="file" id="imagen_espacio" name="imagen_espacio" class="form-control" accept="image/*"> <!-- acepta imagenes de cualquier terminacion-->
+          </div>
+
         </form>
 
-        <!-- PASO 2 -->
+        <!-- PASO 2: atributos del espacio -->
         <form id="formPaso2" class="d-none">
           <h6 class="text-center mb-3" data-i18n="attributesFacility">Atributos del espacio</h6>
           <input type="hidden" id="id_espacio_attr" name="id_espacio">
@@ -206,7 +221,7 @@ $con->close();
       <div class="modal-footer">
         <button class="btn btn-secondary" data-bs-dismiss="modal" data-i18n="cancel">Cancelar</button>
         <button class="btn btn-primary" id="btnSiguiente" data-i18n="next">Siguiente</button>
-        <button class="btn btn-success d-none" id="btnGuardarAtributos" data-i18n="save">Guardar</button>
+        <button class="btn btn-success d-none" id="btnGuardarAtributos" data-i18n="save">Guardar</button> <!-- Cambiado a "Guardar" en paso 2 -->
       </div>
 
     </div>

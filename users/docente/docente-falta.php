@@ -18,9 +18,9 @@ include('../../conexion.php');
 <body>
 
   <!-- Menú hamburguesa para móviles -->
-  <nav class="d-md-none">
+  <nav class="d-md-none"> <!-- Oculta el nav en pantallas medianas hacia arriba -->
     <div class="container-fluid">
-      <button class="btn" type="button" data-bs-toggle="offcanvas" data-bs-target="#menuLateral">
+      <button class="btn" type="button" data-bs-toggle="offcanvas" data-bs-target="#menuLateral"> <!-- Se abre el menu tipo offcanvas (panel lateral) -->
         <img class="menuResponsive" src="./../../img/menu.png" alt="menu">
       </button>
       <img class="logoResponsive" src="./../../img/logo.png" alt="logoResponsive">
@@ -28,7 +28,7 @@ include('../../conexion.php');
   </nav>
 
   <!-- Menú lateral (para celulares/tablets) -->
-  <div class="offcanvas offcanvas-start" tabindex="-1" id="menuLateral">
+  <div class="offcanvas offcanvas-start" tabindex="-1" id="menuLateral">  <!-- off-canvas-start hace qeu el menu se abra desde la izquierda y -1 hace que el menu sea enfocable-->
     <div class="offcanvas-header">
       <button type="button" class="btn-close" data-bs-dismiss="offcanvas"></button>
     </div>
@@ -81,15 +81,15 @@ include('../../conexion.php');
     <main class="principal"> 
       <img src="./../../../img/logo.png" alt="Logo" class="logo">
 
-  <div class="loader"></div>
+  <div class="loader"></div> <!-- llama la clase del circulo con animacion -->
+
   <h1 data-i18n="underMaintenance" >Estamos en mantenimiento</h1>
   <p data-i18n="backSoon" >Volveremos pronto con algo mejor ✨</p>
 
-      </main>
+    </main>
 
 
-  </div> <!-- termina contenedor -->
-
+  </div> 
   <!-- Bootstrap JS -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 

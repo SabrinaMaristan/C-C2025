@@ -2,27 +2,15 @@
 include('./../../../conexion.php');
 $conn = conectar_bd();
 
-session_start();
+$id_usuario = $_GET['id_usuario'] ?? null;
 
-// Verificamos que haya sesión activa
-if (!isset($_SESSION['id_usuario'])) {
-  header('Location: ./../../../index.php');
-  exit;
+if (!$id_usuario) {
+    echo "No se proporcionó un ID de usuario.";
+    exit;
 }
 
-// ID del usuario logueado (secretario)
-$id_usuario_sesion = $_SESSION['id_usuario'];
-
-// ID del usuario que se va a consultar (por GET)
-$id_usuario_get = $_GET['id_usuario'] ?? null;
-if (!$id_usuario_get) {
-  echo "No se proporcionó un ID de usuario.";
-  exit;
-}
-
-// -----------------------------------------------------------------------------
 //  Eliminar registros relacionados según el cargo
-// -----------------------------------------------------------------------------
+
 $cargoQuery = $conn->prepare("SELECT cargo_usuario FROM usuario WHERE id_usuario = ?");
 $cargoQuery->bind_param("i", $id_usuario);
 $cargoQuery->execute();
@@ -44,9 +32,9 @@ if ($cargo) {
     }
 }
 
-// -----------------------------------------------------------------------------
-//  Eliminar el usuario principal
-// -----------------------------------------------------------------------------
+
+// Eliminar el usuario principal
+
 $sql = "DELETE FROM usuario WHERE id_usuario = ?";
 $stmt = mysqli_prepare($conn, $sql);
 
@@ -55,7 +43,6 @@ if ($stmt) {
     $execute = mysqli_stmt_execute($stmt);
 
     if ($execute) {
-        // Eliminación exitosa → redirige con mensaje
         header("Location: ./secretario-usuario.php?msg=EliminacionExitosa");
         exit();
     } else {
