@@ -331,9 +331,7 @@ while ($row = mysqli_fetch_array($query)) {
   <script src="./../../../utils/translate.js"></script>
 
   <!-- manejo de sesión -->
-  <script src="./../../../utils/form-log-in.js"></script> 
-  <script src="./../../../utils/verificar-sesion.js"></script> 
-  
+  <script src="./../../../utils/form-log-in.js"></script>   
 
   <script src="./../../../utils/desplegar-acordeon.js"></script>
   <script src="../js/validation.js"></script>
