@@ -3,9 +3,19 @@
 // index-recursos.php
 // Lista y permite gestionar recursos vinculados a un espacio específico.
 
-include('../../../conexion.php');
-$con = conectar_bd();
+include('./../../../conexion.php');
+include('./../../../encabezado.php');
+include('./../../../verificar-sesion.php');
+
 session_start();
+
+$id_usuario = $_SESSION['id_usuario'] ?? null;
+if (!$id_usuario) {
+  header('Location: ./../../../index.php');
+  exit;
+}
+
+$con = conectar_bd();
 
 // Validar que venga id_espacio por GET
 $idEspacio = isset($_GET['espacio']) ? intval($_GET['espacio']) : null;

@@ -1,5 +1,12 @@
 <?php
 include('./../../../conexion.php');
+
+$id_usuario = $_SESSION['id_usuario'] ?? null;
+if (!$id_usuario) {
+  header('Location: ./../../../index.php');
+  exit;
+}
+
 $con = conectar_bd();
 session_start();
 header("Content-Type: application/json; charset=UTF-8");

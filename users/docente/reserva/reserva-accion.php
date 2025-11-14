@@ -5,6 +5,12 @@ session_start(); //sigue el mismo inicio de sesion
 date_default_timezone_set('America/Montevideo'); //define al fechay hora de uruguay para manejarlas mejor
 header('Content-Type: application/json'); // la respuesta sera json porque devuelve para usarlo en js
 
+$id_usuario = $_SESSION['id_usuario'] ?? null;
+if (!$id_usuario) {
+  header('Location: ./../../../index.php');
+  exit;
+}
+
 $con = conectar_bd();
 $accion = $_POST['accion'] ?? $_GET['accion'] ?? ''; //Lee el parámetro accion enviado por POST o, si no existe, por GET. Si ninguno existe, queda cadena vacía.
 

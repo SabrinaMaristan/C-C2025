@@ -1,5 +1,15 @@
 <?php
 include('./../../../conexion.php');
+include('./../../../encabezado.php');
+include('./../../../verificar-sesion.php');
+
+
+$id_usuario = $_SESSION['id_usuario'] ?? null;
+if (!$id_usuario) {
+  header('Location: ./../../../index.php');
+  exit;
+}
+
 $con = conectar_bd();
 
 $id_espacio = $_GET['id_espacio'] ?? null;
@@ -41,12 +51,8 @@ $attrs = ['Mesas','Sillas','Proyector','Televisor','Aire Acondicionado','Computa
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="UTF-8">
-<title>Espacio - <?= htmlspecialchars($espacio['nombre_espacio']) ?></title>
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"/>
-<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
-<link rel="stylesheet" href="./../../../css/style.css">
-
+  <meta charset="UTF-8">
+  <title>Espacio - <?= htmlspecialchars($espacio['nombre_espacio']) ?></title>
 </head>
 <body>
 

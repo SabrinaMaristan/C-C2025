@@ -3,10 +3,11 @@ include('./../../conexion.php');
 include('./../../encabezado.php');
 include('./../../verificar-sesion.php');
 
+session_start();
 
 $id_usuario = $_SESSION['id_usuario'] ?? null;
 if (!$id_usuario) {
-  header('Location: ./../../index.php');
+  header('Location: ./../../../index.php');
   exit;
 }
 
